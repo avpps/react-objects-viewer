@@ -1,0 +1,86 @@
+html,body {
+  height: 99.95%;
+  margin: 0;
+}
+
+div {
+  height: 100%;
+  margin: 0;
+}
+
+.divMain {
+  width: 100%;
+}
+
+.divHeader {
+  height: 40px;
+  width: 100%;
+  z-index: 0;
+  overflow: visible;
+}
+
+.divWork {
+  display: flex;
+  height: calc(100% - 40px);
+}
+
+.divInput {
+  width: 20%;
+}
+
+.divHistory {
+  width: 20%;
+}
+
+.divHistoryAll {
+  height: 40px;
+}
+
+.divHistoryButtons {
+  height: calc(100% - 40px);
+  overflow-y: auto;
+}
+
+.divOutput {
+  width: 60%;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  resize: none;
+}
+
+button {
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.buttonMode {
+  width: 100px;
+  height: 40px;
+
+}
+
+.buttonLt {
+  width: 80px;
+  height: 40px;
+
+
+}
+
+.buttonAll {
+  width: 100%;
+  height: 40px;
+}
+
+.buttonHis {
+  display: block;
+  width: 100%;
+  height: 20px;
+}
