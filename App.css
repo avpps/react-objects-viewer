@@ -1,5 +1,5 @@
 html,body {
-  height: 99.95%;
+  height: 99.9%;
   margin: 0;
 }
 
@@ -9,41 +9,56 @@ div {
 }
 
 .divMain {
-  width: 100%;
-}
-
-.divHeader {
-  height: 40px;
-  width: 100%;
-  z-index: 0;
-  overflow: visible;
-}
-
-.divWork {
   display: flex;
+  width: 100%;
+}
+
+
+.divInp {
+  width: 20%;
+}
+.divHea {
+  height: 40px;
+}
+.divTxa {
   height: calc(100% - 40px);
 }
 
-.divInput {
+
+.divSum {
   width: 20%;
 }
-
-.divHistory {
-  width: 20%;
+.divBut {
+  height: calc(100% - 40px);
 }
-
 .divHistoryAll {
   height: 40px;
 }
-
 .divHistoryButtons {
   height: calc(100% - 40px);
   overflow-y: auto;
 }
 
-.divOutput {
+
+.divDet {
   width: 60%;
 }
+.divDetHea {
+  display: flex;
+  height: 80px;
+  overflow: hidden;
+}
+.divDetHeaAll{
+  width: 60px;
+}
+.divDetHeaBut{
+  width: calc(100% - 60px);
+  overflow: auto;
+}
+.divDetTxa {
+  height: calc(100% - 80px);
+}
+
 
 textarea {
   width: 100%;
@@ -64,23 +79,25 @@ button {
 .buttonMode {
   width: 100px;
   height: 40px;
-
 }
 
 .buttonLt {
-  width: 80px;
+  width: calc(100% / 3);
   height: 40px;
-
-
 }
 
 .buttonAll {
   width: 100%;
-  height: 40px;
+  height: 100%;
 }
 
 .buttonHis {
   display: block;
   width: 100%;
+  height: 20px;
+}
+
+.buttonDet {
+  display: inline;
   height: 20px;
 }
