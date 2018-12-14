@@ -1,8 +1,61 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import classNames from 'classnames'
+import Dropzone from 'react-dropzone'
+
+
+class FileInput extends React.Component {
+  onDrop (acceptedFiles) {
+      acceptedFiles.forEach(file => {
+          const reader = new FileReader();
+          reader.onload = () => {
+              const fileAsBinaryString = reader.result;
+
+              fetch('http://127.0.0.1:8000/load_file', {
+                method: 'POST',
+                body: fileAsBinaryString
+              })
+
+          };
+          reader.onabort = () => console.log('file reading was aborted');
+          reader.onerror = () => console.log('file reading has failed');
+
+          reader.readAsBinaryString(file);
+      });
+   }
+
+   render() {
+    return (
+      <Dropzone onDrop={this.onDrop}>
+        {({getRootProps, getInputProps, isDragActive}) => {
+          return (
+            <div
+              {...getRootProps()}
+              className={classNames('dropzone', {'dropzone--isActive': isDragActive})}
+            >
+              <input {...getInputProps()} />
+              {
+                isDragActive ?
+                  <p>Drop files here...</p> :
+                  <p>Try dropping some files here, or click to select files to upload.</p>
+              }
+            </div>
+          )
+        }}
+      </Dropzone>
+    );
+  }
+}
+
 
 class App extends Component {
+
+  handleFileInput(event) {
+    const val = event.target.value
+    console.log(val)
+  }
+
   render() {
     let buttons = []
     for (let i=0; i<100; i++) {
@@ -22,6 +75,7 @@ class App extends Component {
         <div className="divInp">
           <div className="divHea">
             <button className="buttonMode">MODE</button>
+            <FileInput />
           </div>
           <div className="divTxa">
             <textarea className="textareaInput"/>
