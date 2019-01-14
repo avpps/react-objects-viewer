@@ -48,6 +48,51 @@ class FileInput extends React.Component {
   }
 }
 
+class GroupSortFilter extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      groupBy: [],
+      sortBy: [],
+      filterBy: []
+    }
+
+  }
+
+
+  render () {
+    let objectsArray = this.props.objectsArray
+    console.log(Object.keys(objectsArray[0]))
+
+    let buttons = []
+    for (let i=0; i<100; i++) {
+      buttons.push(
+        <button className="buttonHis">12:00:00:000 aaa_bbb_ccc</button>
+      )
+    }
+    return (
+      <div>
+      <div className="divHea">
+        <button className="buttonLt">FFFF</button>
+        <button className="buttonLt">DDDD</button>
+        <button className="buttonLt">BBBB</button>
+      </div>
+      <div className="divBut">
+        <div className="divHistoryAll">
+          <button className="buttonAll">ALL</button>
+        </div>
+        <div className="divHistoryButtons">
+          {buttons}
+        </div>
+      </div>
+      </div>
+    )
+  }
+
+
+}
+
 
 class App extends Component {
 
@@ -56,14 +101,30 @@ class App extends Component {
     console.log(val)
   }
 
-  render() {
-    let buttons = []
-    for (let i=0; i<100; i++) {
-      buttons.push(
-        <button className="buttonHis">12:00:00:000 aaa_bbb_ccc</button>
-      )
-    }
+  testObjects() {
+    let testList = [
+      {
+        'aa': 'aa11',
+        'bb': 'bb33',
+        'cc': 'cc11'
+      },
+      {
+        'aa': 'aa11',
+        'bb': 'bb22',
+        'cc': 'cc11'
+      },
+      {
+        'aa': 'aa33',
+        'bb': 'bb11',
+        'cc': 'cc33'
+      },
+    ]
+    return (testList)
+  }
 
+  render() {
+
+    let objectsArray = this.testObjects()
     let buttonsDet = []
     for (let i=0; i<100; i++) {
       buttonsDet.push(
@@ -82,19 +143,8 @@ class App extends Component {
           </div>
         </div>
         <div className="divSum">
-          <div className="divHea">
-            <button className="buttonLt">FFFF</button>
-            <button className="buttonLt">DDDD</button>
-            <button className="buttonLt">BBBB</button>
-          </div>
-          <div className="divBut">
-            <div className="divHistoryAll">
-              <button className="buttonAll">ALL</button>
-            </div>
-            <div className="divHistoryButtons">
-              {buttons}
-            </div>
-          </div>
+          <GroupSortFilter objectsArray={objectsArray}/>
+
         </div>
         <div className="divDet">
           <div className="divDetHea">
