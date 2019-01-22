@@ -1,0 +1,23 @@
+
+
+.divOpt {
+  height: 40px;
+}
+
+button {
+  height: 35px;
+  width: 100%;
+  display: inline-block;
+}
+
+select {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+}
+
+input {
+  height: 100%;
+  width: 97%;
+  display: inline-block;
+}
