@@ -13,7 +13,7 @@ const JSON5 = require('json5')
 
 class Output extends Component {
   render () {
-    return <div>{this.props.Content}</div>
+    return <div><textarea>{JSON3.stringify(this.props.Content, null, '  ')}</textarea></div>
   }
 }
 
@@ -27,7 +27,7 @@ class ObjectViewer extends Component {
           <OptionBoard ObjectsArray={sample}/>
         </div>
         <div className='div70'>
-          <Output Content={'s'}/>
+          <Output Content={sample}/>
         </div>
       </div>
     )
