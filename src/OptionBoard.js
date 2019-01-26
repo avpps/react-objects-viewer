@@ -37,8 +37,13 @@ class OptionBoard extends Component {
   handleGroupChange (event) {
     let val = event.target.value
     this.setState({
-      group: val
-    }, this.setGroups)
+      group: val,
+      groupsSel: [],
+    },
+    () => {
+      this.setGroups();
+      this.updateNewObjectsArray();
+    })
   }
 
   Sort () {

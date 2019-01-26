@@ -17,9 +17,8 @@ class Output extends Component {
   }
   render () {
     try {
-      console.log('zaczelo')
-      console.log(this.props.Content)
-      return <div>{JSON5.stringify(this.props.Content)}</div>
+      let str = JSON5.stringify(this.props.Content, null, '    ')
+      return <div><textarea value={str}/></div>
     } catch (err) {
       return <div>err</div>
     }
