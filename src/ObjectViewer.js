@@ -16,12 +16,19 @@ class Output extends Component {
     super(props)
   }
   render () {
+    let str
+    let summ
     try {
-      let str = JSON5.stringify(this.props.Content, null, '    ')
-      return <div><textarea value={str}/></div>
+      summ = this.props.Content.length
+      str = JSON5.stringify(this.props.Content, null, '    ')
     } catch (err) {
-      return <div>err</div>
+      summ = ''
+      str = err
     }
+    return <div>
+    <textarea className='summ' value={summ}/>
+    <textarea value={str}/>
+    </div>
   }
 }
 

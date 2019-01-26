@@ -25,5 +25,9 @@ div {
 
 textarea {
   width: 100%;
-  height: 100%
+  height: 95%
+}
+
+.summ {
+  height: 5%
 }

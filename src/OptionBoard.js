@@ -73,13 +73,13 @@ class OptionBoard extends Component {
   }
 
   handleButtonClick(b) {
-    let i = b.target.value
+    let group_k = b.target.value
     let groupsSel = this.state.groupsSel
 
-    if (groupsSel.includes(i)) {
-      _.pull(groupsSel, i)
+    if (groupsSel.includes(group_k)) {
+      _.pull(groupsSel, group_k)
     } else {
-      groupsSel.push(i)
+      groupsSel.push(group_k)
     }
     this.setState({
       groupsSel: groupsSel
@@ -94,7 +94,7 @@ class OptionBoard extends Component {
     } else {
       var items = []
       for (let i in groups) {
-        items.push(i)
+        items.push(groups[i][0])
       }
       groupsSel = items
     }
@@ -108,9 +108,10 @@ class OptionBoard extends Component {
     const groupsSel = this.state.groupsSel
     var newObjectsArray = []
     for (let i in groupsSel) {
-      let g_id = groupsSel[i]
-      for (let ii in groups[g_id][1]) {
-        newObjectsArray.push(groups[g_id][1][ii])
+      let group_k = groupsSel[i]
+      let group = _.find(groups, function (o) { return o[0] === group_k })
+      for (let ii in group[1]) {
+        newObjectsArray.push(group[1][ii])
       }
     }
 
@@ -152,15 +153,16 @@ class OptionBoard extends Component {
       </button>
     )
     for (let i in groups) {
+      let group_k = groups[i][0]
       let className = ''
-      if (this.state.groupsSel.includes(i)) {
+      if (this.state.groupsSel.includes(group_k)) {
         className += 'button-active'
       }
       buttons.push(
-        <button value={i}
+        <button value={group_k}
                 className={className}
                 onClick={this.handleButtonClick}>
-                {groups[i][0]}
+                {group_k}
         </button>
       )
     }
