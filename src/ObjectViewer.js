@@ -12,22 +12,45 @@ const JSON5 = require('json5')
 
 
 class Output extends Component {
+  constructor(props) {
+    super(props)
+  }
   render () {
-    return <div><textarea>{JSON3.stringify(this.props.Content, null, '  ')}</textarea></div>
+    try {
+      console.log('zaczelo')
+      console.log(this.props.Content)
+      return <div>{JSON5.stringify(this.props.Content)}</div>
+    } catch (err) {
+      return <div>err</div>
+    }
   }
 }
 
 class ObjectViewer extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      objectsArray: null
+    }
+    this.getObjectsArray = this.getObjectsArray.bind(this)
+  }
+
+  getObjectsArray (a) {
+    this.setState({
+      objectsArray: a
+    })
+  }
 
   render () {
     let sample = getSample()
     return (
       <div className='divMain'>
         <div className='div30'>
-          <OptionBoard ObjectsArray={sample}/>
+          <OptionBoard ObjectsArray={sample} sendObjectsArray={(a) => this.getObjectsArray(a)}/>
         </div>
         <div className='div70'>
-          <Output Content={sample}/>
+          <Output Content={this.state.objectsArray}/>
         </div>
       </div>
     )

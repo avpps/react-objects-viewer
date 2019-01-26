@@ -43,7 +43,11 @@ def _gen_sample_str_cont(datetime, user_id, sess_id, req_id, req_name, obj_type)
 
 
 def _gen_sample_json_cont(datetime, user_id, sess_id, req_id, req_name, obj_type):
-    return 'aaa'
+    return dict(details='\n {} {} {} {} {} {} \n'.format(
+                         datetime, user_id, sess_id, req_id, req_name, obj_type),
+                other='agasfdgsds',
+                sth_else='asafaagahethtearf')
+
 
 
 dt = datetime.datetime.now()
@@ -68,7 +72,7 @@ for u in range(10):
                         obj_type=obj_type,
                         str_cont=_gen_sample_str_cont(dt, user_id, sess_id,
                                                       req_id, req_name, obj_type),
-                        json_cont=_gen_sample_json_cont(datetime, user_id, sess_id,
+                        json_cont=_gen_sample_json_cont(dt, user_id, sess_id,
                                                         req_id, req_name, obj_type)))
 
 print('Object items count: ', len(objects))
@@ -83,4 +87,3 @@ file_cont = "const sample = {}\n\n{}".format(str(objects), file_main_cont)
 
 with open('src/SampleObjects.js', 'w') as f:
     f.write(file_cont)
-

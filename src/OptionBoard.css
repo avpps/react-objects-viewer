@@ -10,6 +10,10 @@ button {
   display: inline-block;
 }
 
+.button-active {
+  background-color: grey
+}
+
 select {
   height: 100%;
   width: 100%;
