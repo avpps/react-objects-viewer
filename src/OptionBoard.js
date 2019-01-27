@@ -8,8 +8,8 @@ class OptionBoard extends Component {
     super(props)
     this.state = {
       initial: true,
-      group: 'user_id',
-      sort: 'user_id',
+      group: this.props.conf[0],
+      sort: this.props.conf[1],
       filter: null,
       groups: [],
       groupsSel: [],
@@ -21,9 +21,20 @@ class OptionBoard extends Component {
     this.handleButtonAllClick = this.handleButtonAllClick.bind(this)
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.ObjectsArray !== prevProps.ObjectsArray) {
+      this.setGroups()
+      this.Presentation()
+      this.updateNewObjectsArray()
+    }
+  }
+
   Group () {
     let options = []
-    let obj0 = Object.keys(this.props.ObjectsArray[0])
+    let obj0 = []
+    try {
+      obj0 = Object.keys(this.props.ObjectsArray[0])
+    } catch (err) {}
     for (var i in obj0) {
       var selected = false
       if (obj0[i] === this.state.group) {selected='selected'}
@@ -48,7 +59,10 @@ class OptionBoard extends Component {
 
   Sort () {
     let options = []
-    let obj0 = Object.keys(this.props.ObjectsArray[0])
+    let obj0 = []
+    try {
+      obj0 = Object.keys(this.props.ObjectsArray[0])
+    } catch (err) {}
     for (var i in obj0) {
       var selected = false
       if (obj0[i] === this.state.sort) {selected='selected'}
@@ -139,6 +153,9 @@ class OptionBoard extends Component {
   }
 
   Presentation () {
+    if (this.props.I === 1) {
+      console.log(this.props.ObjectsArray.length)
+    }
     var buttons = []
     const groups = this.state.groups
 
@@ -180,10 +197,14 @@ class OptionBoard extends Component {
     const button2 = <button>B2</button>
 
     const mainDiv = <div className='divInp'>
-      {this.Group()}
-      {this.Sort()}
-      {this.Filter()}
-      {this.Presentation()}
+      <div className='divOptGr'>
+        {this.Group()}
+        {this.Sort()}
+        {this.Filter()}
+      </div>
+      <div className='divBtnGr'>
+        {this.Presentation()}
+      </div>
     </div>
     return mainDiv
   }

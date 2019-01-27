@@ -1,5 +1,19 @@
 
 
+.divInp {
+  height: 100%;
+}
+
+.divOptGr {
+  height: 120px;
+}
+
+.divBtnGr {
+  height: -moz-calc(100% - 140px);
+  height: calc(100% - 140px);
+  overflow: scroll;
+}
+
 .divOpt {
   height: 40px;
 }
