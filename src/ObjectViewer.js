@@ -38,7 +38,7 @@ class ObjectViewer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      objectsArrays: [[], [], []]
+      objectsArrays: [[], [], [], []]
     }
     this.getObjectsArray = this.getObjectsArray.bind(this)
   }
@@ -54,19 +54,29 @@ class ObjectViewer extends Component {
   render () {
     let sample = getSample()
     let conf = getConf()
+    let conf_dgs = conf['def_group_sort']
+    let conf_dbd = conf['def_butt_descr']
     let oa = this.state.objectsArrays
     return (
       <div className='divMain'>
-        <div className='div30'>
-          <OptionBoard I={0} ObjectsArray={sample} conf={conf[0]}
+        <div className='div15'>
+          <OptionBoard I={0} ObjectsArray={sample}
+           conf_dgs={conf_dgs[0]} conf_dbd={conf_dbd}
            sendObjectsArray={(a) => this.getObjectsArray(0, a)}/>
-          <OptionBoard I={1} ObjectsArray={oa[0]} conf={conf[1]}
+          <OptionBoard I={1} ObjectsArray={oa[0]}
+           conf_dgs={conf_dgs[1]} conf_dbd={conf_dbd}
            sendObjectsArray={(a) => this.getObjectsArray(1, a)}/>
-          <OptionBoard I={2} ObjectsArray={oa[1]} conf={conf[2]}
+        </div>
+        <div className='div15'>
+          <OptionBoard I={2} ObjectsArray={oa[1]}
+           conf_dgs={conf_dgs[2]} conf_dbd={conf_dbd}
            sendObjectsArray={(a) => this.getObjectsArray(2, a)}/>
+           <OptionBoard I={3} ObjectsArray={oa[2]}
+            conf_dgs={conf_dgs[3]} conf_dbd={conf_dbd}
+            sendObjectsArray={(a) => this.getObjectsArray(3, a)}/>
         </div>
         <div className='div70'>
-          <Output Content={oa[2]}/>
+          <Output Content={oa[3]}/>
         </div>
       </div>
     )

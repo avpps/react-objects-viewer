@@ -10,7 +10,7 @@
 
 .divBtnGr {
   height: -moz-calc(100% - 140px);
-  height: calc(100% - 140px);
+  height: calc(100% - 120px);
   overflow: scroll;
 }
 

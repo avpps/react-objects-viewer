@@ -8,8 +8,8 @@ class OptionBoard extends Component {
     super(props)
     this.state = {
       initial: true,
-      group: this.props.conf[0],
-      sort: this.props.conf[1],
+      group: this.props.conf_dgs[0],
+      sort: this.props.conf_dgs[1],
       filter: null,
       groups: [],
       groupsSel: [],
@@ -24,8 +24,6 @@ class OptionBoard extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.ObjectsArray !== prevProps.ObjectsArray) {
       this.setGroups()
-      this.Presentation()
-      this.updateNewObjectsArray()
     }
   }
 
@@ -53,7 +51,6 @@ class OptionBoard extends Component {
     },
     () => {
       this.setGroups();
-      this.updateNewObjectsArray();
     })
   }
 
@@ -124,8 +121,10 @@ class OptionBoard extends Component {
     for (let i in groupsSel) {
       let group_k = groupsSel[i]
       let group = _.find(groups, function (o) { return o[0] === group_k })
-      for (let ii in group[1]) {
-        newObjectsArray.push(group[1][ii])
+      if (group) {
+        for (let ii in group[1]) {
+          newObjectsArray.push(group[1][ii])
+        }
       }
     }
 
@@ -149,13 +148,10 @@ class OptionBoard extends Component {
     groups = groups.value()
     this.setState({
       groups: groups
-    })
+    }, this.updateNewObjectsArray)
   }
 
   Presentation () {
-    if (this.props.I === 1) {
-      console.log(this.props.ObjectsArray.length)
-    }
     var buttons = []
     const groups = this.state.groups
 
@@ -169,17 +165,32 @@ class OptionBoard extends Component {
               ALL
       </button>
     )
-    for (let i in groups) {
-      let group_k = groups[i][0]
+    for (let g in groups) {
+      let group = this.state.group
+      let group_k = groups[g][0]
       let className = ''
       if (this.state.groupsSel.includes(group_k)) {
         className += 'button-active'
       }
+
+      let conf_dbd = this.props.conf_dbd
+      let descr = ''
+      if (group in conf_dbd) {
+        let conf = conf_dbd[group]
+        for (let i in conf) {
+          let iii = conf[i]
+          let val = groups[g][1][0][iii]
+          descr += ' ' + val
+        }
+      } else {
+        descr = group_k
+      }
+
       buttons.push(
         <button value={group_k}
                 className={className}
                 onClick={this.handleButtonClick}>
-                {group_k}
+                {descr}
         </button>
       )
     }
