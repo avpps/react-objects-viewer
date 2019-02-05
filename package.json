@@ -1,6 +1,6 @@
 {
   "name": "react-object-viewer",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "private": false,
   "dependencies": {
     "json": "^9.0.6",
@@ -35,5 +35,7 @@
     "plugins": [
       "@babel/plugin-proposal-export-default-from"
     ]
-  }
+  },
+  "homepage": "https://github.com/piotrekps/react-object-viewer",
+  "license": "MIT"
 }
