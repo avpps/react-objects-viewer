@@ -6,6 +6,9 @@ import { getConf} from './conf'
 import BaseOptions from './BaseOptions'
 import OptionBoard from './OptionBoard'
 import RGL, {Responsive, WidthProvider} from 'react-grid-layout'
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import classnames from 'classnames';
+
 const ReactGridLayout = WidthProvider(RGL);
 const JSON = require('json5')
 const JSON3 = require('json3')

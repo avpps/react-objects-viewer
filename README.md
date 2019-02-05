@@ -1,4 +1,3 @@
 
 
-## JavaScript objects viewer
-
+## React JavaScript objects viewer

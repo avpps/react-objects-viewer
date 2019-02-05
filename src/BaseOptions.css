@@ -1,0 +1,41 @@
+
+
+.divInp {
+  height: 100%;
+}
+
+.divOptGr {
+  height: 120px;
+}
+
+.divBtnGr {
+  height: -moz-calc(100% - 140px);
+  height: calc(100% - 120px);
+  overflow: scroll;
+}
+
+.divOpt {
+  height: 40px;
+}
+
+button {
+  height: 35px;
+  width: 100%;
+  display: inline-block;
+}
+
+.button-active {
+  background-color: grey
+}
+
+select {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+}
+
+input {
+  height: 100%;
+  width: 97%;
+  display: inline-block;
+}
