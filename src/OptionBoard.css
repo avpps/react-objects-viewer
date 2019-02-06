@@ -1,4 +1,7 @@
-
+div {
+  background-color: #313335;
+  color: #A9B7C6;
+}
 
 .divInp {
   height: 100%;
@@ -18,24 +21,43 @@
   height: 40px;
 }
 
+.div-button {
+  height: auto;
+  min-height: 30px;
+  border: 0.1px solid black;
+  text-align: center;
+}
+
+.div-button-active {
+  background-color: #3A3A3A;
+  color: #8C8C8C;
+  height: auto;
+  min-height: 30px;
+  border: 0.1px solid black;
+  text-align: center;
+}
+
 button {
   height: 35px;
   width: 100%;
   display: inline-block;
-}
-
-.button-active {
-  background-color: grey
+  background-color: #313335;
+  color: #A9B7C6;
 }
 
 select {
   height: 100%;
   width: 100%;
   display: inline-block;
+  background-color: #313335;
+  color: #A9B7C6;
+
 }
 
 input {
   height: 100%;
   width: 97%;
   display: inline-block;
+  background-color: #313335;
+  color: #A9B7C6;
 }

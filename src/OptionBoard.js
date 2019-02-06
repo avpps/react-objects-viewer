@@ -29,14 +29,18 @@ class OptionBoard extends Component {
 
   Group () {
     let options = []
-    let obj0 = []
-    try {
-      obj0 = Object.keys(this.props.ObjectsArray[0])
-    } catch (err) {}
-    for (var i in obj0) {
+    let objKeys = []
+    if (this.props.ObjectsArray[0]) {
+      objKeys = Object.keys(this.props.ObjectsArray[0])
+    } else if (this.props.objectKeys) {
+      objKeys = this.props.objectKeys
+    } else {
+      objKeys = [this.state.group]
+    }
+    for (var i in objKeys) {
       var selected = false
-      if (obj0[i] === this.state.group) {selected='selected'}
-      options.push(<option selected={selected}>{obj0[i]}</option>)
+      if (objKeys[i] === this.state.group) {selected='selected'}
+      options.push(<option selected={selected}>{objKeys[i]}</option>)
     }
     return <div className='divOpt'>
       <select onChange={this.handleGroupChange}>{options}</select>
@@ -56,14 +60,18 @@ class OptionBoard extends Component {
 
   Sort () {
     let options = []
-    let obj0 = []
-    try {
-      obj0 = Object.keys(this.props.ObjectsArray[0])
-    } catch (err) {}
-    for (var i in obj0) {
+    let objKeys = []
+    if (this.props.ObjectsArray[0]) {
+      objKeys = Object.keys(this.props.ObjectsArray[0])
+    } else if (this.props.objectKeys) {
+      objKeys = this.props.objectKeys
+    } else {
+      objKeys = [this.state.sort]
+    }
+    for (var i in objKeys) {
       var selected = false
-      if (obj0[i] === this.state.sort) {selected='selected'}
-      options.push(<option selected={selected}>{obj0[i]}</option>)
+      if (objKeys[i] === this.state.sort) {selected='selected'}
+      options.push(<option selected={selected}>{objKeys[i]}</option>)
     }
     return <div className='divOpt'>
       <select onChange={this.handleSortChange}>{options}</select>
@@ -83,8 +91,7 @@ class OptionBoard extends Component {
     </div>
   }
 
-  handleButtonClick(b) {
-    let group_k = b.target.value
+  handleButtonClick(group_k) {
     let groupsSel = this.state.groupsSel
 
     if (groupsSel.includes(group_k)) {
@@ -155,22 +162,22 @@ class OptionBoard extends Component {
     var buttons = []
     const groups = this.state.groups
 
-    let className = ''
+    let className = 'div-button'
     if (this.state.groupsSel.length === this.state.groups.length) {
-      className += 'button-active'
+      className = 'div-button-active'
     }
     buttons.push(
-      <button className={className}
+      <div className={className}
               onClick={this.handleButtonAllClick}>
               ALL
-      </button>
+      </div>
     )
     for (let g in groups) {
       let group = this.state.group
       let group_k = groups[g][0]
-      let className = ''
+      let className = 'div-button'
       if (this.state.groupsSel.includes(group_k)) {
-        className += 'button-active'
+        className = 'div-button-active'
       }
 
       let conf_dbd = this.props.conf_dbd
@@ -187,11 +194,11 @@ class OptionBoard extends Component {
       }
 
       buttons.push(
-        <button value={group_k}
+        <div value={group_k}
                 className={className}
-                onClick={this.handleButtonClick}>
+                onClick={() => this.handleButtonClick(group_k)}>
                 {descr}
-        </button>
+        </div>
       )
     }
     return buttons
