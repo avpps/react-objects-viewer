@@ -1,6 +1,6 @@
 div {
-  background-color: #313335;
-  color: #A9B7C6;
+  background-color: #1f2223;
+  color: #7D8C93;
 }
 
 .divInp {
@@ -13,7 +13,7 @@ div {
 
 .divBtnGr {
   height: -moz-calc(100% - 140px);
-  height: calc(100% - 120px);
+  height: calc(100% - 140px);
   overflow: scroll;
 }
 
@@ -29,8 +29,8 @@ div {
 }
 
 .div-button-active {
-  background-color: #3A3A3A;
-  color: #8C8C8C;
+  background-color: #2F393C;
+  color: #7D8C93;
   height: auto;
   min-height: 30px;
   border: 0.1px solid black;
@@ -41,16 +41,16 @@ button {
   height: 35px;
   width: 100%;
   display: inline-block;
-  background-color: #313335;
-  color: #A9B7C6;
+  background-color: #1f2223;
+  color: #7D8C93;
 }
 
 select {
   height: 100%;
   width: 100%;
   display: inline-block;
-  background-color: #313335;
-  color: #A9B7C6;
+  background-color: #1f2223;
+  color: #7D8C93;
 
 }
 
@@ -58,6 +58,6 @@ input {
   height: 100%;
   width: 97%;
   display: inline-block;
-  background-color: #313335;
-  color: #A9B7C6;
+  background-color: #1f2223;
+  color: #7D8C93;
 }

@@ -43,7 +43,7 @@ class ObjectViewer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeTab: '1',
+      activeTab: '2',
       objectsArrays: [[], [], [], [], []]
     }
     this.getObjectsArray = this.getObjectsArray.bind(this)
@@ -82,7 +82,7 @@ class ObjectViewer extends Component {
 
   render () {
     let rows = 100
-    let rowHeight = (window.innerHeight - 15) / rows
+    let rowHeight = (window.innerHeight - 15 - 42.75) / rows
     let sample = getSample()
     let objectKeys = Object.keys(sample[0])
     let conf = getConf()
