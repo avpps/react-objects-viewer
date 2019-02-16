@@ -90,11 +90,10 @@ class ObjectViewer extends Component {
     let conf_dbd = conf['def_butt_descr']
     let oa = this.state.objectsArrays
     var layout = [
-      {i: 'a0', x: 0, y: 0, w: 2, h: 10, minW: 2, maxW: 2, isResizable: false, isDraggable: false},
       {i: 'a1', x: 0, y: 0, w: 2, h: 30, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
       {i: 'a2', x: 0, y: 0, w: 2, h: 30, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
       {i: 'a3', x: 2, y: 0, w: 2, h: 70, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
-      {i: 'a4', x: 0, y: 0, w: 2, h: 30, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
+      {i: 'a4', x: 0, y: 0, w: 2, h: 40, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
       {i: 'a5', x: 2, y: 0, w: 2, h: 30, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
       {i: 'o', x: 4, y: 0, w: 6, h: 100, minW: 6, maxW: 6, isResizable: false, isDraggable: false},
     ];
@@ -146,9 +145,6 @@ class ObjectViewer extends Component {
                layout={layout} cols={10}
                rowHeight={rowHeight} maxRows={rows}
                margin={[0, 0]}>
-                <div key='a0'>
-                  <BaseOptions />
-                </div>
                 <div key='a1'>
                   <OptionBoard I={0} ObjectsArray={sample} objectKeys={objectKeys}
                   conf_dgs={conf_dgs[0]} conf_dbd={conf_dbd}

@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import './OptionBoard.css';
 import _ from 'lodash'
+import Select from '@material-ui/core/Select';
+import { EqualListItems } from './utils/helpers'
+
+
 
 
 class OptionBoard extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      active: true,
       initial: true,
       group: this.props.conf_dgs[0],
       sort: this.props.conf_dgs[1],
@@ -18,6 +23,8 @@ class OptionBoard extends Component {
     this.handleGroupChange = this.handleGroupChange.bind(this)
     this.handleSortChange = this.handleSortChange.bind(this)
     this.handleButtonClick = this.handleButtonClick.bind(this)
+    this.handleButtonActClick = this.handleButtonActClick.bind(this)
+    this.handleButtonNoClick = this.handleButtonNoClick.bind(this)
     this.handleButtonAllClick = this.handleButtonAllClick.bind(this)
   }
 
@@ -91,6 +98,75 @@ class OptionBoard extends Component {
     </div>
   }
 
+  OtherOptions () {
+    var buttons = []
+    const groups = this.state.groups
+    const groupsSel = this.state.groupsSel
+
+    let actClassName = 'div-button-opt'
+
+
+    let noClassName = 'div-button-opt'
+
+    let allClassName = 'div-button-opt'
+    let all = groups.map(function (x) { return x[0] })
+    .every(val => groupsSel.includes(val))
+    if (groupsSel.length && all) {
+      allClassName = 'div-button-opt-active'
+    }
+
+    return (
+      <div className='divOpt'>
+        <div className={actClassName}
+          onClick={this.handleButtonActClick}>
+          ACT
+        </div>
+        <div className={noClassName}
+          onClick={this.handleButtonNoClick}>
+          NO
+        </div>
+        <div className={allClassName}
+          onClick={this.handleButtonAllClick}>
+          ALL
+        </div>
+      </div>
+    )
+  }
+
+  handleButtonActClick(b) {
+    let groups = this.state.groups
+    let groupsSel = this.state.groupsSel
+
+  }
+
+  handleButtonNoClick(b) {
+    let groups = this.state.groups
+    let groupsSel = this.state.groupsSel
+
+    let newGroupsSel = _.difference(
+      groupsSel,
+      groups.map(function (x) { return x[0] })
+    )
+    this.setState({
+      groupsSel: newGroupsSel
+    }, this.updateNewObjectsArray)
+  }
+
+  handleButtonAllClick(b) {
+    let groups = this.state.groups
+    let groupsSel = this.state.groupsSel
+
+    for (let i in groups) {
+      var alreadySel = groupsSel.indexOf(groups[1])
+      if (alreadySel === -1) {
+        groupsSel.push(groups[i][0])
+      }
+    }
+    this.setState({
+      groupsSel: groupsSel
+    }, this.updateNewObjectsArray)
+  }
+
   handleButtonClick(group_k) {
     let groupsSel = this.state.groupsSel
 
@@ -98,23 +174,6 @@ class OptionBoard extends Component {
       _.pull(groupsSel, group_k)
     } else {
       groupsSel.push(group_k)
-    }
-    this.setState({
-      groupsSel: groupsSel
-    }, this.updateNewObjectsArray)
-  }
-
-  handleButtonAllClick(b) {
-    let groups = this.state.groups
-    let groupsSel = this.state.groupsSel
-    if (this.state.groupsSel.length === this.state.groups.length) {
-      groupsSel = []
-    } else {
-      var items = []
-      for (let i in groups) {
-        items.push(groups[i][0])
-      }
-      groupsSel = items
     }
     this.setState({
       groupsSel: groupsSel
@@ -162,16 +221,6 @@ class OptionBoard extends Component {
     var buttons = []
     const groups = this.state.groups
 
-    let className = 'div-button'
-    if (this.state.groupsSel.length === this.state.groups.length) {
-      className = 'div-button-active'
-    }
-    buttons.push(
-      <div className={className}
-              onClick={this.handleButtonAllClick}>
-              ALL
-      </div>
-    )
     for (let g in groups) {
       let group = this.state.group
       let group_k = groups[g][0]
@@ -219,6 +268,7 @@ class OptionBoard extends Component {
         {this.Group()}
         {this.Sort()}
         {this.Filter()}
+        {this.OtherOptions()}
       </div>
       <div className='divBtnGr'>
         {this.Presentation()}

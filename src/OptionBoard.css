@@ -5,15 +5,18 @@ div {
 
 .divInp {
   height: 100%;
+  border-style: solid;
+  border-width: thin;
 }
 
 .divOptGr {
-  height: 120px;
+  height: 160px;
+  
 }
 
 .divBtnGr {
-  height: -moz-calc(100% - 140px);
-  height: calc(100% - 140px);
+  height: -moz-calc(100% - 180px);
+  height: calc(100% - 180px);
   overflow: scroll;
 }
 
@@ -32,6 +35,25 @@ div {
   background-color: #2F393C;
   color: #7D8C93;
   height: auto;
+  min-height: 30px;
+  border: 0.1px solid black;
+  text-align: center;
+}
+
+
+.div-button-opt {
+  display: inline-flex;
+  width: calc(100% / 3);
+  border: 0.1px solid black;
+  text-align: center;
+}
+
+.div-button-opt-active {
+  background-color: #2F393C;
+  display: inline-flex;
+  width: calc(100% / 3);
+  color: #7D8C93;
+  height: 40px;
   min-height: 30px;
   border: 0.1px solid black;
   text-align: center;
