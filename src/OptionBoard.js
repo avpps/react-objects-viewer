@@ -11,7 +11,6 @@ class OptionBoard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      active: true,
       initial: true,
       group: this.props.conf_dgs[0],
       sort: this.props.conf_dgs[1],
@@ -104,6 +103,9 @@ class OptionBoard extends Component {
     const groupsSel = this.state.groupsSel
 
     let actClassName = 'div-button-opt'
+    if (this.props.activeStatus) {
+      actClassName = 'div-button-opt-active'
+    }
 
 
     let noClassName = 'div-button-opt'
@@ -134,8 +136,7 @@ class OptionBoard extends Component {
   }
 
   handleButtonActClick(b) {
-    let groups = this.state.groups
-    let groupsSel = this.state.groupsSel
+    this.props.setBoardActiveStatus()
 
   }
 

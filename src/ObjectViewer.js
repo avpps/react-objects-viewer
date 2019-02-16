@@ -44,8 +44,10 @@ class ObjectViewer extends Component {
     super(props)
     this.state = {
       activeTab: '2',
-      objectsArrays: [[], [], [], [], []]
+      objectsArrays: [getSample(), [], [], [], []],
+      activeBoards: [true, true, true, true, true],
     }
+    this.setBoardActiveStatus = this.setBoardActiveStatus.bind(this)
     this.getObjectsArray = this.getObjectsArray.bind(this)
     this.updateDimensions = this.updateDimensions.bind(this)
     this.toggle = this.toggle.bind(this)
@@ -72,6 +74,12 @@ class ObjectViewer extends Component {
     })
   }
 
+  setBoardActiveStatus(i) {
+    let ab = this.state.activeBoards
+    ab[i] = !ab[i]
+    this.setState({activeBoards: ab})
+  }
+
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -90,13 +98,29 @@ class ObjectViewer extends Component {
     let conf_dbd = conf['def_butt_descr']
     let oa = this.state.objectsArrays
     var layout = [
+      {i: 'a0', x: 0, y: 0, w: 2, h: 30, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
       {i: 'a1', x: 0, y: 0, w: 2, h: 30, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
-      {i: 'a2', x: 0, y: 0, w: 2, h: 30, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
-      {i: 'a3', x: 2, y: 0, w: 2, h: 70, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
-      {i: 'a4', x: 0, y: 0, w: 2, h: 40, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
-      {i: 'a5', x: 2, y: 0, w: 2, h: 30, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
+      {i: 'a2', x: 2, y: 0, w: 2, h: 70, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
+      {i: 'a3', x: 0, y: 0, w: 2, h: 40, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
+      {i: 'a4', x: 2, y: 0, w: 2, h: 30, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
       {i: 'o', x: 4, y: 0, w: 6, h: 100, minW: 6, maxW: 6, isResizable: false, isDraggable: false},
     ];
+
+    let boards = []
+    for (let i in this.state.activeBoards) {
+      let key = 'a' + i
+      i = parseInt(i)
+      boards.push(
+        <div key={key}>
+          <OptionBoard I={i} ObjectsArray={oa[i]} objectKeys={objectKeys}
+            conf_dgs={conf_dgs[i]} conf_dbd={conf_dbd}
+            sendObjectsArray={(a) => this.getObjectsArray(i+1, a)}
+            activeStatus={this.state.activeBoards[i.toString()]}
+            setBoardActiveStatus={(s) => this.setBoardActiveStatus(i, s)}/>
+        </div>
+      )
+    }
+
     return (
       <div>
         <Nav tabs>
@@ -145,33 +169,9 @@ class ObjectViewer extends Component {
                layout={layout} cols={10}
                rowHeight={rowHeight} maxRows={rows}
                margin={[0, 0]}>
-                <div key='a1'>
-                  <OptionBoard I={0} ObjectsArray={sample} objectKeys={objectKeys}
-                  conf_dgs={conf_dgs[0]} conf_dbd={conf_dbd}
-                  sendObjectsArray={(a) => this.getObjectsArray(0, a)}/>
-                </div>
-                <div key='a2'>
-                  <OptionBoard I={1} ObjectsArray={oa[0]} objectKeys={objectKeys}
-                  conf_dgs={conf_dgs[1]} conf_dbd={conf_dbd}
-                  sendObjectsArray={(a) => this.getObjectsArray(1, a)}/>
-                </div>
-                <div key='a3'>
-                  <OptionBoard I={2} ObjectsArray={oa[1]} objectKeys={objectKeys}
-                  conf_dgs={conf_dgs[2]} conf_dbd={conf_dbd}
-                  sendObjectsArray={(a) => this.getObjectsArray(2, a)}/>
-                </div>
-                <div key='a4'>
-                  <OptionBoard I={3} ObjectsArray={oa[2]} objectKeys={objectKeys}
-                  conf_dgs={conf_dgs[3]} conf_dbd={conf_dbd}
-                  sendObjectsArray={(a) => this.getObjectsArray(3, a)}/>
-                </div>
-                <div key='a5'>
-                  <OptionBoard I={4} ObjectsArray={oa[3]} objectKeys={objectKeys}
-                  conf_dgs={conf_dgs[4]} conf_dbd={conf_dbd}
-                  sendObjectsArray={(a) => this.getObjectsArray(4, a)}/>
-                </div>
+                {boards}
                 <div key='o'>
-                  <Output Content={oa[4]}/>
+                  <Output Content={oa[5]}/>
                 </div>
               </ReactGridLayout>
             </div>
