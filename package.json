@@ -1,6 +1,6 @@
 {
   "name": "react-objects-viewer",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": false,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
@@ -38,6 +38,7 @@
       "@babel/plugin-proposal-export-default-from"
     ]
   },
+  "description": "Array of objects viewer",
   "homepage": "https://github.com/piotrekps/react-objects-viewer",
   "license": "MIT"
 }

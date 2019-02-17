@@ -44,11 +44,11 @@ class ObjectViewer extends Component {
     super(props)
     this.state = {
       activeTab: '2',
-      objectsArrays: [getSample(), [], [], [], []],
+      objectsArrays: [getSample(), [], [], [], [], []],
       activeBoards: [true, true, true, true, true],
     }
     this.setBoardActiveStatus = this.setBoardActiveStatus.bind(this)
-    this.getObjectsArray = this.getObjectsArray.bind(this)
+    this.setObjectsArray = this.setObjectsArray.bind(this)
     this.updateDimensions = this.updateDimensions.bind(this)
     this.toggle = this.toggle.bind(this)
   }
@@ -66,7 +66,7 @@ class ObjectViewer extends Component {
     window.removeEventListener("resize", this.updateDimensions);
   }
 
-  getObjectsArray (i, a) {
+  setObjectsArray (i, a) {
     let oa = this.state.objectsArrays
     oa[i] = a
     this.setState({
@@ -114,7 +114,7 @@ class ObjectViewer extends Component {
         <div key={key}>
           <OptionBoard I={i} ObjectsArray={oa[i]} objectKeys={objectKeys}
             conf_dgs={conf_dgs[i]} conf_dbd={conf_dbd}
-            sendObjectsArray={(a) => this.getObjectsArray(i+1, a)}
+            sendObjectsArray={(a) => this.setObjectsArray(i+1, a)}
             activeStatus={this.state.activeBoards[i.toString()]}
             setBoardActiveStatus={(s) => this.setBoardActiveStatus(i, s)}/>
         </div>

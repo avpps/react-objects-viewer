@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
 
-export function EqualListItems (array1, array2) {
-    
+export function ArrayIncluded (array1, array2) {
+
 }

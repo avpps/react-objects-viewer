@@ -7,11 +7,12 @@ div {
   height: 100%;
   border-style: solid;
   border-width: thin;
+  border-color: #516368;
 }
 
 .divOptGr {
   height: 160px;
-  
+
 }
 
 .divBtnGr {
@@ -65,6 +66,7 @@ button {
   display: inline-block;
   background-color: #1f2223;
   color: #7D8C93;
+  border-color:  #1f2223;
 }
 
 select {
@@ -73,7 +75,7 @@ select {
   display: inline-block;
   background-color: #1f2223;
   color: #7D8C93;
-
+  border-color:  #2F393C;
 }
 
 input {
@@ -82,4 +84,6 @@ input {
   display: inline-block;
   background-color: #1f2223;
   color: #7D8C93;
+  border-color:  #2F393C;
+
 }

@@ -31,6 +31,9 @@ class OptionBoard extends Component {
     if (this.props.ObjectsArray !== prevProps.ObjectsArray) {
       this.setGroups()
     }
+    if (this.props.activeStatus !== prevProps.activeStatus) {
+      this.setGroups()
+    }
   }
 
   Group () {
@@ -201,7 +204,11 @@ class OptionBoard extends Component {
   }
 
   sendNewObjectsArray() {
-    this.props.sendObjectsArray(this.state.newObjectsArray)
+    if (this.props.activeStatus) {
+      this.props.sendObjectsArray(this.state.newObjectsArray)
+    } else {
+      this.props.sendObjectsArray(this.props.ObjectsArray)
+    }
   }
 
   setGroups () {
