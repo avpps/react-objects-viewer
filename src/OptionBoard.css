@@ -62,7 +62,7 @@ div {
 
 button {
   height: 35px;
-  width: 100%;
+  width: 50px;
   display: inline-block;
   background-color: #1f2223;
   color: #7D8C93;
@@ -72,10 +72,14 @@ button {
 select {
   height: 100%;
   width: 100%;
-  display: inline-block;
+  display: inline-flex;
   background-color: #1f2223;
   color: #7D8C93;
   border-color:  #2F393C;
+}
+
+.select-sort {
+  width: calc(100% - 50px);
 }
 
 input {

@@ -14,6 +14,7 @@ class OptionBoard extends Component {
       initial: true,
       group: this.props.conf_dgs[0],
       sort: this.props.conf_dgs[1],
+      sortOrder: 'asc',
       filter: null,
       groups: [],
       groupsSel: [],
@@ -21,6 +22,7 @@ class OptionBoard extends Component {
     }
     this.handleGroupChange = this.handleGroupChange.bind(this)
     this.handleSortChange = this.handleSortChange.bind(this)
+    this.handleSortOrderChange = this.handleSortOrderChange.bind(this)
     this.handleButtonClick = this.handleButtonClick.bind(this)
     this.handleButtonActClick = this.handleButtonActClick.bind(this)
     this.handleButtonNoClick = this.handleButtonNoClick.bind(this)
@@ -83,7 +85,8 @@ class OptionBoard extends Component {
       options.push(<option selected={selected}>{objKeys[i]}</option>)
     }
     return <div className='divOpt'>
-      <select onChange={this.handleSortChange}>{options}</select>
+      <select className='select-sort' onChange={this.handleSortChange}>{options}</select>
+      <button onClick={this.handleSortOrderChange}>{this.state.sortOrder.toUpperCase()}</button>
     </div>
   }
 
@@ -91,6 +94,19 @@ class OptionBoard extends Component {
     let val = event.target.value
     this.setState({
       sort: val
+    }, this.setGroups)
+  }
+
+  handleSortOrderChange (event) {
+    console.log(this.state.sortOrder)
+    let ord
+    if (this.state.sortOrder === 'asc') {
+      ord = 'desc'
+    } else {
+      ord = 'asc'
+    }
+    this.setState({
+      sortOrder: ord
     }, this.setGroups)
   }
 
@@ -218,7 +234,7 @@ class OptionBoard extends Component {
     var groups = _(obj)
     .groupBy(function (o) {return o[group]})
     .toPairs()
-    .sortBy(function (o) {return o[1][0][sort]})
+    .orderBy(function (o) {return o[1][0][sort]}, this.state.sortOrder)
     groups = groups.value()
     this.setState({
       groups: groups
