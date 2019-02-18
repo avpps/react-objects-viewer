@@ -27,6 +27,7 @@ class OptionBoard extends Component {
     this.handleButtonActClick = this.handleButtonActClick.bind(this)
     this.handleButtonNoClick = this.handleButtonNoClick.bind(this)
     this.handleButtonAllClick = this.handleButtonAllClick.bind(this)
+    this.handleFilterChange = this.handleFilterChange.bind(this)
   }
 
   componentDidUpdate(prevProps) {
@@ -112,8 +113,15 @@ class OptionBoard extends Component {
 
   Filter () {
     return <div className='divOpt'>
-      <input/>
+      <input onChange={this.handleFilterChange}/>
     </div>
+  }
+
+  handleFilterChange (event) {
+    let val = event.target.value
+    this.setState({
+      filter: val
+    }, this.setGroups)
   }
 
   OtherOptions () {
@@ -236,6 +244,10 @@ class OptionBoard extends Component {
     .toPairs()
     .orderBy(function (o) {return o[1][0][sort]}, this.state.sortOrder)
     groups = groups.value()
+    if (this.state.filter !== null) {
+      let filter = this.state.filter
+      groups = groups.filter(obj => obj[0].includes(filter))
+    }
     this.setState({
       groups: groups
     }, this.updateNewObjectsArray)
