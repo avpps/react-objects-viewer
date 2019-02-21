@@ -185,7 +185,7 @@ class OptionBoard extends Component {
     let groupsSel = this.state.groupsSel
 
     for (let i in groups) {
-      var alreadySel = groupsSel.indexOf(groups[1])
+      var alreadySel = groupsSel.indexOf(groups[i][0])
       if (alreadySel === -1) {
         groupsSel.push(groups[i][0])
       }
@@ -206,6 +206,15 @@ class OptionBoard extends Component {
     this.setState({
       groupsSel: groupsSel
     }, this.updateNewObjectsArray)
+  }
+
+  handleButtonRightClick(e, group_k) {
+    e.preventDefault()
+    navigator.permissions.query({name: "clipboard-write"}).then(result => {
+      if (result.state == "granted" || result.state == "prompt") {
+        navigator.clipboard.writeText(group_k)
+      }
+    });
   }
 
   updateNewObjectsArray() {
@@ -281,7 +290,8 @@ class OptionBoard extends Component {
       buttons.push(
         <div value={group_k}
                 className={className}
-                onClick={() => this.handleButtonClick(group_k)}>
+                onClick={() => this.handleButtonClick(group_k)}
+                onContextMenu={(e) => this.handleButtonRightClick(e, group_k)}>
                 {descr}
         </div>
       )
