@@ -8,6 +8,9 @@ import OptionBoard from './OptionBoard'
 import RGL, {Responsive, WidthProvider} from 'react-grid-layout'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
+import JsonTab from './JsonTab'
+import XmlTab from './XmlTab'
+
 
 const ReactGridLayout = WidthProvider(RGL);
 const JSON = require('json5')
@@ -31,10 +34,12 @@ class Output extends Component {
       summ = ''
       str = err
     }
-    return <div>
-    <textarea className='summ' value={summ}/>
-    <textarea value={str}/>
-    </div>
+    return (
+      <div>
+        <textarea className='summ' value={summ}/>
+        <textarea className='out' value={str}/>
+      </div>
+    )
   }
 }
 
@@ -161,6 +166,7 @@ class ObjectViewer extends Component {
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <div>
+              <BaseOptions />
             </div>
           </TabPane>
           <TabPane tabId="2">
@@ -178,12 +184,10 @@ class ObjectViewer extends Component {
             </div>
           </TabPane>
           <TabPane tabId="3">
-            <div>
-            </div>
+            <JsonTab />
           </TabPane>
           <TabPane tabId="4">
-            <div>
-            </div>
+            <XmlTab />
           </TabPane>
         </TabContent>
       </div>

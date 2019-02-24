@@ -99,7 +99,6 @@ class OptionBoard extends Component {
   }
 
   handleSortOrderChange (event) {
-    console.log(this.state.sortOrder)
     let ord
     if (this.state.sortOrder === 'asc') {
       ord = 'desc'
@@ -232,7 +231,6 @@ class OptionBoard extends Component {
         }
       }
     }
-    console.log(groupsSel)
 
     this.setState({
       groupsSel: groupsSel,

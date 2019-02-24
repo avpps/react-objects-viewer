@@ -27,7 +27,13 @@ textarea {
 }
 
 .summ {
-  height: 5%
+  height: 3%;
+  width: 100%;
+}
+
+.out {
+  height: 97%;
+  width: 100%;
 }
 
 .react-grid-layout {
