@@ -96,6 +96,7 @@ class ObjectViewer extends Component {
     let conf = getConf()
     let conf_dgs = conf['def_group_sort']
     let conf_dbd = conf['def_butt_descr']
+    let conf_ddc = conf['def_descr_color']
     let oa = this.state.objectsArrays
     var layout = [
       {i: 'a0', x: 0, y: 0, w: 2, h: 30, minW: 2, maxW: 2, isResizable: true, isDraggable: false},
@@ -113,7 +114,7 @@ class ObjectViewer extends Component {
       boards.push(
         <div key={key}>
           <OptionBoard I={i} ObjectsArray={oa[i]} objectKeys={objectKeys}
-            conf_dgs={conf_dgs[i]} conf_dbd={conf_dbd}
+            conf_dgs={conf_dgs[i]} conf_dbd={conf_dbd} conf_ddc={conf_ddc}
             sendObjectsArray={(a) => this.setObjectsArray(i+1, a)}
             activeStatus={this.state.activeBoards[i.toString()]}
             setBoardActiveStatus={(s) => this.setBoardActiveStatus(i, s)}/>

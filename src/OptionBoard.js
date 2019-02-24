@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import './OptionBoard.css';
 import _ from 'lodash'
 import Select from '@material-ui/core/Select';
-import { EqualListItems } from './utils/helpers'
-
+import { PresentationSpanStyle } from './utils/helpers'
 
 
 
@@ -308,16 +307,19 @@ class OptionBoard extends Component {
       }
 
       let conf_dbd = this.props.conf_dbd
-      let descr = ''
+      let descr = []
       if (group in conf_dbd) {
         let conf = conf_dbd[group]
-        for (let i in conf) {
-          let iii = conf[i]
-          let val = groups[g][1][0][iii]
-          descr += ' ' + val
+        for (let i of conf) {
+          let val = groups[g][1][0][i]
+          if (i == '<br/>') {
+            descr.push(<br/>)
+          } else {
+            descr.push(<span style={PresentationSpanStyle(this, i)}>{val} </span>)
+          }
         }
       } else {
-        descr = group_k
+        descr = <span style={PresentationSpanStyle(this, group_k)}>{group_k} </span>
       }
 
       buttons.push(
