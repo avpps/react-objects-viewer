@@ -18,6 +18,7 @@ class OptionBoard extends Component {
       filter: null,
       groups: [],
       groupsSel: [],
+      lastGroupSel: null,
       newObjectsArray: []
     }
     this.handleGroupChange = this.handleGroupChange.bind(this)
@@ -195,16 +196,48 @@ class OptionBoard extends Component {
     }, this.updateNewObjectsArray)
   }
 
-  handleButtonClick(group_k) {
+  handleButtonClick(e, group_k) {
+    e.preventDefault()
+
+    let groups = this.state.groups.map(function(x) {return x[0]})
     let groupsSel = this.state.groupsSel
 
-    if (groupsSel.includes(group_k)) {
-      _.pull(groupsSel, group_k)
+    if (!e.shiftKey) {
+      if (groupsSel.includes(group_k)) {
+        _.pull(groupsSel, group_k)
+      } else {
+        groupsSel.push(group_k)
+      }
     } else {
-      groupsSel.push(group_k)
+      let l = groups.indexOf(this.state.lastGroupSel)
+      let c = groups.indexOf(group_k)
+
+      let markedGroups
+      if (c > l) {
+        markedGroups = groups.slice(l+1, c+1)
+      } else {
+        markedGroups = groups.slice(c, l)
+      }
+
+      if (groupsSel.includes(this.state.lastGroupSel)) {
+        for (let m of markedGroups) {
+          if (!groupsSel.includes(m)) {
+            groupsSel.push(m)
+          }
+        }
+      } else {
+        for (let m of markedGroups) {
+          if (groupsSel.includes(m)) {
+            _.pull(groupsSel, m)
+          }
+        }
+      }
     }
+    console.log(groupsSel)
+
     this.setState({
-      groupsSel: groupsSel
+      groupsSel: groupsSel,
+      lastGroupSel: group_k,
     }, this.updateNewObjectsArray)
   }
 
@@ -290,7 +323,7 @@ class OptionBoard extends Component {
       buttons.push(
         <div value={group_k}
                 className={className}
-                onClick={() => this.handleButtonClick(group_k)}
+                onClick={(e) => this.handleButtonClick(e, group_k)}
                 onContextMenu={(e) => this.handleButtonRightClick(e, group_k)}>
                 {descr}
         </div>
