@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './ObjectViewer.css';
 
-import { getSample } from './SampleObjects'
 import { getConf} from './conf'
 import BaseOptions from './BaseOptions'
 import OptionBoard from './OptionBoard'
@@ -10,7 +9,8 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, Ca
 import classnames from 'classnames';
 import JsonTab from './JsonTab'
 import XmlTab from './XmlTab'
-
+import classNames from 'classnames'
+import Dropzone from 'react-dropzone'
 
 const ReactGridLayout = WidthProvider(RGL);
 const JSON = require('json5')
@@ -49,13 +49,14 @@ class ObjectViewer extends Component {
     super(props)
     this.state = {
       activeTab: '2',
-      objectsArrays: [getSample(), [], [], [], [], []],
+      objectsArrays: [[], [], [], [], [], []],
       activeBoards: [true, true, true, true, true],
     }
     this.setBoardActiveStatus = this.setBoardActiveStatus.bind(this)
     this.setObjectsArray = this.setObjectsArray.bind(this)
     this.updateDimensions = this.updateDimensions.bind(this)
     this.toggle = this.toggle.bind(this)
+    this.onDrop = this.onDrop.bind(this)
   }
 
   updateDimensions () {
@@ -93,11 +94,26 @@ class ObjectViewer extends Component {
     }
   }
 
+    onDrop (acceptedFiles) {
+      acceptedFiles.forEach(file => {
+          const reader = new FileReader();
+          reader.onload = () => {
+              const fileAsBinaryString = reader.result;
+
+              this.setObjectsArray(0, JSON3.parse(fileAsBinaryString))
+
+          };
+          reader.onabort = () => console.log('file reading was aborted');
+          reader.onerror = () => console.log('file reading has failed');
+
+          reader.readAsBinaryString(file);
+      });
+    }
+
   render () {
     let rows = 100
     let rowHeight = (window.innerHeight - 15 - 42.75) / rows
-    let sample = getSample()
-    let objectKeys = Object.keys(sample[0])
+    let objectKeys = Object.keys(this.state.objectsArrays[0])
     let conf = getConf()
     let conf_dgs = conf['def_group_sort']
     let conf_dbd = conf['def_butt_descr']
@@ -166,7 +182,23 @@ class ObjectViewer extends Component {
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <div>
-              <BaseOptions />
+              <Dropzone onDrop={this.onDrop}>
+                {({getRootProps, getInputProps, isDragActive}) => {
+                  return (
+                    <div
+                      {...getRootProps()}
+                      className={classNames('dropzone', {'dropzone--isActive': isDragActive})}
+                    >
+                      <input {...getInputProps()} />
+                      {
+                        isDragActive ?
+                          <p>Drop files here...</p> :
+                          <p>Try dropping some files here, or click to select files to upload.</p>
+                      }
+                    </div>
+                  )
+                }}
+              </Dropzone>
             </div>
           </TabPane>
           <TabPane tabId="2">

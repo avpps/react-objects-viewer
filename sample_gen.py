@@ -5,6 +5,13 @@ import random
 from string import hexdigits as hd
 from pprint import pprint as pp
 
+users = 1
+sessions = 3
+fro_r = 2
+deb_r = (20, 21)
+bac_r = (2, 10)
+cont_l = 2
+
 
 attributes = [
     'user_id',
@@ -27,16 +34,16 @@ req_names = [
 
 obj_types = [
     ['fro', 2],
-    ['deb', random.randrange(8, 15, 1)],
-    ['bac', random.randrange(0, 6, 1)],
+    ['deb', random.randrange(deb_r[0], deb_r[1], 1)],
+    ['bac', random.randrange(bac_r[0], bac_r[1], 1)],
 ]
 
 objects = list()
 
 
 def _gen_sample_str_cont(datetime, user_id, sess_id, req_id, req_name, obj_type):
-    a = ''.join((random.choice(hd) for i in range(5)))
-    b = ''.join((random.choice(hd) for i in range(50)))
+    a = ''.join((random.choice(hd) for i in range(cont_l)))
+    b = ''.join((random.choice(hd) for i in range(cont_l)))
 
     return a + '\n {} {} {} {} {} {} \n'.format(
         datetime, user_id, sess_id, req_id, req_name, obj_type) + b
@@ -49,12 +56,11 @@ def _gen_sample_json_cont(datetime, user_id, sess_id, req_id, req_name, obj_type
                 sth_else='asafaagahethtearf')
 
 
-
 dt = datetime.datetime.now()
-for u in range(10):
+for u in range(users):
     user_id = random.randrange(1000, 9999, 1)
     dt = dt + datetime.timedelta(hours=random.random(), seconds=random.random())
-    for s in range(3):
+    for s in range(sessions):
         dt = dt + datetime.timedelta(hours=random.randrange(-1000, 1000, 1)/100)
         sess_id = 'S_' + ''.join((random.choice(hd) for i in range(15)))
         for req_name in req_names:
@@ -87,3 +93,6 @@ file_cont = "const sample = {}\n\n{}".format(str(objects), file_main_cont)
 
 with open('src/SampleObjects.js', 'w') as f:
     f.write(file_cont)
+
+with open('src/SampleObjects.txt', 'w') as f:
+    f.write(json.dumps(objects))
