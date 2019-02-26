@@ -113,7 +113,10 @@ class ObjectViewer extends Component {
   render () {
     let rows = 100
     let rowHeight = (window.innerHeight - 15 - 42.75) / rows
-    let objectKeys = Object.keys(this.state.objectsArrays[0])
+    let objectKeys = []
+    try {
+       objectKeys = Object.keys(this.state.objectsArrays[0][0])
+    } catch(err) {}
     let conf = getConf()
     let conf_dgs = conf['def_group_sort']
     let conf_dbd = conf['def_butt_descr']
