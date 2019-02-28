@@ -3,7 +3,7 @@ import './OptionBoard.css';
 import _ from 'lodash'
 import Select from '@material-ui/core/Select';
 import { PresentationSpanStyle } from './utils/helpers'
-
+import TextSearch from './TextInput'
 
 
 class OptionBoard extends Component {
@@ -15,6 +15,7 @@ class OptionBoard extends Component {
       sort: this.props.conf_dgs[1],
       sortOrder: 'asc',
       filter: null,
+      filterGroup: this.props.conf_dgs[0],
       groups: [],
       groupsSel: [],
       lastGroupSel: null,
@@ -25,9 +26,12 @@ class OptionBoard extends Component {
     this.handleSortOrderChange = this.handleSortOrderChange.bind(this)
     this.handleButtonClick = this.handleButtonClick.bind(this)
     this.handleButtonActClick = this.handleButtonActClick.bind(this)
+    this.handleButtonClearClick = this.handleButtonClearClick.bind(this)
     this.handleButtonNoClick = this.handleButtonNoClick.bind(this)
+    this.handleButtonAllVisibleClick = this.handleButtonAllVisibleClick.bind(this)
     this.handleButtonAllClick = this.handleButtonAllClick.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
+    this.handleFilterGroupChange = this.handleFilterGroupChange.bind(this)
   }
 
   componentDidUpdate(prevProps) {
@@ -111,15 +115,38 @@ class OptionBoard extends Component {
   }
 
   Filter () {
+    let options = []
+    let objKeys = []
+    if (this.props.ObjectsArray[0]) {
+      objKeys = Object.keys(this.props.ObjectsArray[0])
+    } else if (this.props.objectKeys) {
+      objKeys = this.props.objectKeys
+    } else {
+      objKeys = [this.state.filterGroup]
+    }
+    for (var i in objKeys) {
+      var selected = false
+      if (objKeys[i] === this.state.filterGroup) {selected='selected'}
+      options.push(<option selected={selected}>{objKeys[i]}</option>)
+    }
+    let styleComm = {width: '30%'}
     return <div className='divOpt'>
-      <input onChange={this.handleFilterChange}/>
+      <TextSearch onChange={this.handleFilterChange} style={styleComm}/>
+      <select className='select-sort' onChange={this.handleFilterGroupChange}  style={styleComm}>{options}</select>
     </div>
   }
 
-  handleFilterChange (event) {
-    let val = event.target.value
+  handleFilterChange (value) {
+    let val = value
     this.setState({
       filter: val
+    }, this.setGroups)
+  }
+
+  handleFilterGroupChange (event) {
+    let val = event.target.value
+    this.setState({
+      filterGroup: val
     }, this.setGroups)
   }
 
@@ -150,12 +177,20 @@ class OptionBoard extends Component {
           ACT
         </div>
         <div className={noClassName}
+          onClick={this.handleButtonClearClick}>
+          Unsel all
+        </div>
+        <div className={noClassName}
           onClick={this.handleButtonNoClick}>
-          NO
+          Unsel vis
+        </div>
+        <div className={allClassName}
+          onClick={this.handleButtonAllVisibleClick}>
+          Sel vis
         </div>
         <div className={allClassName}
           onClick={this.handleButtonAllClick}>
-          ALL
+          Sel all
         </div>
       </div>
     )
@@ -164,6 +199,12 @@ class OptionBoard extends Component {
   handleButtonActClick(b) {
     this.props.setBoardActiveStatus()
 
+  }
+
+  handleButtonClearClick(b) {
+    this.setState({
+      groupsSel: []
+    }, this.updateNewObjectsArray)
   }
 
   handleButtonNoClick(b) {
@@ -176,6 +217,21 @@ class OptionBoard extends Component {
     )
     this.setState({
       groupsSel: newGroupsSel
+    }, this.updateNewObjectsArray)
+  }
+
+  handleButtonAllVisibleClick(b) {
+    let groups = this.state.groups
+    let groupsSel = this.state.groupsSel
+
+    for (let i in groups) {
+      var alreadySel = groupsSel.indexOf(groups[i][0])
+      if (alreadySel === -1) {
+        groupsSel.push(groups[i][0])
+      }
+    }
+    this.setState({
+      groupsSel: groupsSel
     }, this.updateNewObjectsArray)
   }
 
@@ -279,14 +335,22 @@ class OptionBoard extends Component {
     var group = this.state.group
     var sort = this.state.sort
     var groups = _(obj)
-    .groupBy(function (o) {return o[group]})
-    .toPairs()
-    .orderBy(function (o) {return o[1][0][sort]}, this.state.sortOrder)
-    groups = groups.value()
     if (this.state.filter !== null) {
       let filter = this.state.filter
-      groups = groups.filter(obj => obj[0].includes(filter))
+      let filterGroup = this.state.filterGroup
+      groups = groups.filter(function (obj) {
+        let value = obj[filterGroup]
+        if (typeof value === 'string') {}
+        else if (typeof value === 'number') {value = value.toString()}
+        else {return true}
+        console.log(value.match(filter))
+        return value.match(filter)
+      })
     }
+    groups = groups.groupBy(function (o) {return o[group]})
+    groups = groups.toPairs()
+    groups = groups.orderBy(function (o) {return o[1][0][sort]}, this.state.sortOrder)
+    groups = groups.value()
     this.setState({
       groups: groups
     }, this.updateNewObjectsArray)
