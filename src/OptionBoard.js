@@ -3,6 +3,7 @@ import './OptionBoard.css';
 import _ from 'lodash'
 import Select from '@material-ui/core/Select';
 import { PresentationSpanStyle } from './utils/helpers'
+import { UnselectableOptions } from './utils/cssHelpers'
 import TextSearch from './TextInput'
 
 
@@ -58,7 +59,7 @@ class OptionBoard extends Component {
       if (objKeys[i] === this.state.group) {selected='selected'}
       options.push(<option selected={selected}>{objKeys[i]}</option>)
     }
-    return <div className='divOpt'>
+    return <div style={{height: '40px'}}>
       <select onChange={this.handleGroupChange}>{options}</select>
     </div>
   }
@@ -89,8 +90,8 @@ class OptionBoard extends Component {
       if (objKeys[i] === this.state.sort) {selected='selected'}
       options.push(<option selected={selected}>{objKeys[i]}</option>)
     }
-    return <div className='divOpt'>
-      <select className='select-sort' onChange={this.handleSortChange}>{options}</select>
+    return <div style={{height: '40px'}}>
+      <select style={{width: 'calc(100% - 50px)'}} onChange={this.handleSortChange}>{options}</select>
       <button onClick={this.handleSortOrderChange}>{this.state.sortOrder.toUpperCase()}</button>
     </div>
   }
@@ -130,9 +131,9 @@ class OptionBoard extends Component {
       options.push(<option selected={selected}>{objKeys[i]}</option>)
     }
     let styleComm = {width: '30%'}
-    return <div className='divOpt'>
+    return <div style={{height: '40px'}}>
       <TextSearch onChange={this.handleFilterChange} style={styleComm}/>
-      <select className='select-sort' onChange={this.handleFilterGroupChange}  style={styleComm}>{options}</select>
+      <select style={{width: 'calc(100% - 50px)'}} onChange={this.handleFilterGroupChange}  style={styleComm}>{options}</select>
     </div>
   }
 
@@ -155,40 +156,53 @@ class OptionBoard extends Component {
     const groups = this.state.groups
     const groupsSel = this.state.groupsSel
 
-    let actClassName = 'div-button-opt'
+    let optDivStyle = Object.assign({
+      display: 'inline-flex',
+      width: 'calc(100% / 5)',
+      borderStyle: 'solid',
+      borderWidth: 'thin',
+      borderColor: 'black',
+      textAlign: 'center',
+    }, UnselectableOptions())
+    let optDivActiveStyle = Object.assign({
+      backgroundColor: '#2F393C',
+      color: '#7D8C93',
+      height:' 40px',
+      minHeight: '30px',
+    }, optDivStyle)
+
+
+    let actStyle = optDivStyle
     if (this.props.activeStatus) {
-      actClassName = 'div-button-opt-active'
+      actStyle = optDivActiveStyle
     }
 
-
-    let noClassName = 'div-button-opt'
-
-    let allClassName = 'div-button-opt'
+    let allStyle = optDivStyle
     let all = groups.map(function (x) { return x[0] })
     .every(val => groupsSel.includes(val))
     if (groupsSel.length && all) {
-      allClassName = 'div-button-opt-active'
+      allStyle = optDivActiveStyle
     }
 
     return (
-      <div className='divOpt'>
-        <div className={actClassName}
+      <div style={{height: '40px'}}>
+        <div style={actStyle}
           onClick={this.handleButtonActClick}>
           ACT
         </div>
-        <div className={noClassName}
+        <div style={optDivStyle}
           onClick={this.handleButtonClearClick}>
           Unsel all
         </div>
-        <div className={noClassName}
+        <div style={optDivStyle}
           onClick={this.handleButtonNoClick}>
           Unsel vis
         </div>
-        <div className={allClassName}
+        <div style={allStyle}
           onClick={this.handleButtonAllVisibleClick}>
           Sel vis
         </div>
-        <div className={allClassName}
+        <div style={allStyle}
           onClick={this.handleButtonAllClick}>
           Sel all
         </div>
@@ -360,12 +374,25 @@ class OptionBoard extends Component {
     var buttons = []
     const groups = this.state.groups
 
+    let divStyle = Object.assign({
+      height: 'auto',
+      minHeight: '30px',
+      borderStyle: 'solid',
+      borderWidth: 'thin',
+      borderColor: 'black',
+      textAlign: 'center',
+    }, UnselectableOptions())
+    let divActiveStyle = Object.assign({
+      backgroundColor: '#2F393C',
+      color: '#7D8C93'
+    }, divStyle)
+
     for (let g in groups) {
       let group = this.state.group
       let group_k = groups[g][0]
-      let className = 'div-button'
+      let style = divStyle
       if (this.state.groupsSel.includes(group_k)) {
-        className = 'div-button-active'
+        style = divActiveStyle
       }
 
       let conf_dbd = this.props.conf_dbd
@@ -386,7 +413,7 @@ class OptionBoard extends Component {
 
       buttons.push(
         <div value={group_k}
-                className={className}
+                style={style}
                 onClick={(e) => this.handleButtonClick(e, group_k)}
                 onContextMenu={(e) => this.handleButtonRightClick(e, group_k)}>
                 {descr}
@@ -406,14 +433,29 @@ class OptionBoard extends Component {
     const button1 = <button>B1</button>
     const button2 = <button>B2</button>
 
-    const mainDiv = <div className='divInp'>
-      <div className='divOptGr'>
+    let mainDivStyle = {
+      height: '100%',
+      borderStyle: 'solid',
+      borderWidth: 'thin',
+      borderColor: '#516368'
+    }
+    let optGroupDivStyle = {
+      height: '160px',
+    }
+
+    let buttonGroupDivStyle = {
+      height: '-moz-calc(100% - 160px)',
+      height: 'calc(100% - 160px)',
+      overflow: 'scroll'
+    }
+    const mainDiv = <div style={mainDivStyle}>
+      <div style={optGroupDivStyle}>
         {this.Group()}
         {this.Sort()}
         {this.Filter()}
         {this.OtherOptions()}
       </div>
-      <div className='divBtnGr'>
+      <div style={buttonGroupDivStyle}>
         {this.Presentation()}
       </div>
     </div>

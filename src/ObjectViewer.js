@@ -26,8 +26,9 @@ class Output extends Component {
     super(props)
     this.state = {
       items: [],
+      hasMore: true,
       page: 0,
-      pageSize: 1000
+      pageSize: 500
     }
     this.fetchMoreData = this.fetchMoreData.bind(this)
   }
@@ -36,6 +37,7 @@ class Output extends Component {
     if (this.props.Content !== prevProps.Content) {
       this.setState({
         items: [],
+        hasMore: true,
         page: 0,
       }, this.fetchMoreData)
     }
@@ -59,6 +61,7 @@ class Output extends Component {
 
   fetchMoreData () {
     setTimeout(() => {
+      let hasMore = this.state.hasMore
       let page = this.state.page
       let pageSize = this.state.pageSize
       let start = page * pageSize
@@ -67,20 +70,26 @@ class Output extends Component {
         this.props.Content.slice(start, end).map((i) => (
           this.presentation(i)
       )))
+      if (newItems.length >= this.props.Content.length) {
+        hasMore = false
+      }
 
       console.log(
         'start', start,
         'end', end,
         'page', page,
         'content', this.props.Content.length,
+        'content_splice', this.props.Content.slice(start, end).length,
+        'hasMore', hasMore,
         'newItems', newItems.length
       )
       this.setState({
         items: newItems,
+        hasMore: hasMore,
         page: this.state.page += 1
       });
     },
-    300);
+    100);
   }
 
   render() {
@@ -91,7 +100,7 @@ class Output extends Component {
         <InfiniteScroll
           dataLength={this.state.items.length}
           next={this.fetchMoreData}
-          hasMore={true}
+          hasMore={this.state.hasMore}
           loader={'loader...'}
           scrollableTarget="scrollableDiv"
         >

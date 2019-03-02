@@ -3,77 +3,6 @@ div {
   color: #7D8C93;
 }
 
-.divInp {
-  height: 100%;
-  border-style: solid;
-  border-width: thin;
-  border-color: #516368;
-}
-
-.divOptGr {
-  height: 160px;
-
-}
-
-.divBtnGr {
-  height: -moz-calc(100% - 180px);
-  height: calc(100% - 180px);
-  overflow: scroll;
-}
-
-.divOpt {
-  height: 40px;
-}
-
-.div-button {
-  height: auto;
-  min-height: 30px;
-  border: 0.1px solid black;
-  text-align: center;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-   -khtml-user-select: none; /* Konqueror HTML */
-     -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-          user-select: none; /* Non-prefixed version, currently
-                                supported by Chrome and Opera */
-}
-
-.div-button-active {
-  background-color: #2F393C;
-  color: #7D8C93;
-  height: auto;
-  min-height: 30px;
-  border: 0.1px solid black;
-  text-align: center;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
-}
-
-
-.div-button-opt {
-  display: inline-flex;
-  width: calc(100% / 5);
-  border: 0.1px solid black;
-  text-align: center;
-}
-
-.div-button-opt-active {
-  background-color: #2F393C;
-  display: inline-flex;
-  width: calc(100% / 5);
-  color: #7D8C93;
-  height: 40px;
-  min-height: 30px;
-  border: 0.1px solid black;
-  text-align: center;
-}
-
 button {
   height: 35px;
   width: 50px;
@@ -90,10 +19,6 @@ select {
   background-color: #1f2223;
   color: #7D8C93;
   border-color:  #2F393C;
-}
-
-.select-sort {
-  width: calc(100% - 50px);
 }
 
 input {
