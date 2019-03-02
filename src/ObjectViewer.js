@@ -11,6 +11,7 @@ import JsonTab from './JsonTab'
 import XmlTab from './XmlTab'
 import classNames from 'classnames'
 import Dropzone from 'react-dropzone'
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const ReactGridLayout = WidthProvider(RGL);
 const JSON = require('json5')
@@ -23,23 +24,81 @@ const JSON5 = require('json5')
 class Output extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      items: [],
+      page: 0,
+      pageSize: 1000
+    }
+    this.fetchMoreData = this.fetchMoreData.bind(this)
   }
-  render () {
-    let str
-    let summ
+
+  componentDidUpdate(prevProps) {
+    if (this.props.Content !== prevProps.Content) {
+      this.setState({
+        items: [],
+        page: 0,
+      }, this.fetchMoreData)
+    }
+  }
+
+  presentation (i) {
+    let cont
     try {
-      summ = this.props.Content.length
-      str = JSON5.stringify(this.props.Content, null, '    ')
+      cont = JSON5.stringify(i['json_cont'], null, '    ')
     } catch (err) {
-      summ = ''
-      str = err
+      cont = i['str_cont']
     }
     return (
       <div>
-        <textarea className='summ' value={summ}/>
-        <textarea className='out' value={str}/>
+        <span>{i['datetime']} {i['user_id']}</span>
+        <pre style={{color: '#7D8C93'}}>{cont}</pre>
+        <br />
       </div>
     )
+  }
+
+  fetchMoreData () {
+    setTimeout(() => {
+      let page = this.state.page
+      let pageSize = this.state.pageSize
+      let start = page * pageSize
+      let end = start + pageSize
+      let newItems = this.state.items.concat(
+        this.props.Content.slice(start, end).map((i) => (
+          this.presentation(i)
+      )))
+
+      console.log(
+        'start', start,
+        'end', end,
+        'page', page,
+        'content', this.props.Content.length,
+        'newItems', newItems.length
+      )
+      this.setState({
+        items: newItems,
+        page: this.state.page += 1
+      });
+    },
+    300);
+  }
+
+  render() {
+    console.log(this.state.items.length)
+
+    return (
+      <div id="scrollableDiv" style={{ height: '100%', overflow: "auto" }}>
+        <InfiniteScroll
+          dataLength={this.state.items.length}
+          next={this.fetchMoreData}
+          hasMore={true}
+          loader={'loader...'}
+          scrollableTarget="scrollableDiv"
+        >
+          {this.state.items}
+        </InfiniteScroll>
+      </div>
+    );
   }
 }
 
