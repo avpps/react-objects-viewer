@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './JsonTab.css';
 import JSON5 from 'json5'
+import { ParserTextAreaStyle } from './utils/cssHelpers'
 
 
 class JsonTab extends Component {
@@ -30,8 +30,8 @@ class JsonTab extends Component {
   render () {
     return (
       <div>
-        <textarea onChange={(e) => this.handleInput(e)}></textarea>
-        <textarea value={this.state.parsedJson}></textarea>
+        <textarea style={ParserTextAreaStyle()} onChange={(e) => this.handleInput(e)}></textarea>
+        <textarea style={ParserTextAreaStyle()} value={this.state.parsedJson}></textarea>
       </div>
     )
   }
