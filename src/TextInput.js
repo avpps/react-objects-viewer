@@ -1,5 +1,8 @@
 // Za: https://gist.github.com/krambertech/76afec49d7508e89e028fce14894724c
 import React, { Component } from 'react';
+import {
+  InputStyle
+} from './utils/cssHelpers'
 
 const WAIT_INTERVAL = 2500;
 const ENTER_KEY = 13;
@@ -44,7 +47,7 @@ export default class TextSearch extends Component {
 
     render() {
         const { className } = this.props;
-        let style = {width: '70%'}
+        let style = Object.assign({width: '70%'}, InputStyle())
         return (
             <input style={style}
                 value={this.state.value}

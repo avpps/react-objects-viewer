@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import './OptionBoard.css';
 import _ from 'lodash'
 import Select from '@material-ui/core/Select';
 import { PresentationSpanStyle } from './utils/helpers'
-import { UnselectableOptions } from './utils/cssHelpers'
+import {
+  DivStyle, ButtonStyle, SelectStyle, InputStyle,
+  UnselectableOptions, ActiveStyle,
+} from './utils/cssHelpers'
 import TextSearch from './TextInput'
 
 
@@ -59,8 +61,12 @@ class OptionBoard extends Component {
       if (objKeys[i] === this.state.group) {selected='selected'}
       options.push(<option selected={selected}>{objKeys[i]}</option>)
     }
+
+    let selStyle = Object.assign({
+    }, SelectStyle())
+
     return <div style={{height: '40px'}}>
-      <select onChange={this.handleGroupChange}>{options}</select>
+      <select style={selStyle} onChange={this.handleGroupChange}>{options}</select>
     </div>
   }
 
@@ -90,9 +96,14 @@ class OptionBoard extends Component {
       if (objKeys[i] === this.state.sort) {selected='selected'}
       options.push(<option selected={selected}>{objKeys[i]}</option>)
     }
+
+    let selStyle = Object.assign({}, SelectStyle(), {
+      width: 'calc(100% - 50px)'
+    })
+
     return <div style={{height: '40px'}}>
-      <select style={{width: 'calc(100% - 50px)'}} onChange={this.handleSortChange}>{options}</select>
-      <button onClick={this.handleSortOrderChange}>{this.state.sortOrder.toUpperCase()}</button>
+      <select style={selStyle} onChange={this.handleSortChange}>{options}</select>
+      <button style={ButtonStyle()} onClick={this.handleSortOrderChange}>{this.state.sortOrder.toUpperCase()}</button>
     </div>
   }
 
@@ -130,10 +141,20 @@ class OptionBoard extends Component {
       if (objKeys[i] === this.state.filterGroup) {selected='selected'}
       options.push(<option selected={selected}>{objKeys[i]}</option>)
     }
-    let styleComm = {width: '30%'}
-    return <div style={{height: '40px'}}>
-      <TextSearch onChange={this.handleFilterChange} style={styleComm}/>
-      <select style={{width: 'calc(100% - 50px)'}} onChange={this.handleFilterGroupChange}  style={styleComm}>{options}</select>
+
+    let styleComm = {width: '100%'}
+    let selStyle = Object.assign({}, SelectStyle(), {
+      width: 'calc(100% - 50px)'
+    })
+
+    return <div style={{height: '40px', display: 'inline-flex'}}>
+      <div style={styleComm}>
+        <TextSearch onChange={this.handleFilterChange} />
+      </div>
+      <select
+       style={selStyle}
+       onChange={this.handleFilterGroupChange}
+       >{options}</select>
     </div>
   }
 
@@ -160,16 +181,11 @@ class OptionBoard extends Component {
       display: 'inline-flex',
       width: 'calc(100% / 5)',
       borderStyle: 'solid',
-      borderWidth: 'thin',
-      borderColor: 'black',
-      textAlign: 'center',
-    }, UnselectableOptions())
+    }, DivStyle(), UnselectableOptions())
     let optDivActiveStyle = Object.assign({
-      backgroundColor: '#2F393C',
-      color: '#7D8C93',
       height:' 40px',
       minHeight: '30px',
-    }, optDivStyle)
+    }, optDivStyle, ActiveStyle())
 
 
     let actStyle = optDivStyle
@@ -374,18 +390,13 @@ class OptionBoard extends Component {
     var buttons = []
     const groups = this.state.groups
 
-    let divStyle = Object.assign({
-      height: 'auto',
-      minHeight: '30px',
-      borderStyle: 'solid',
-      borderWidth: 'thin',
-      borderColor: 'black',
-      textAlign: 'center',
-    }, UnselectableOptions())
-    let divActiveStyle = Object.assign({
-      backgroundColor: '#2F393C',
-      color: '#7D8C93'
-    }, divStyle)
+    let divStyle = Object.assign(
+      DivStyle(), {height: 'auto', minHeight: '30px', borderBottomStyle: 'solid'},
+      UnselectableOptions()
+    )
+    let divActiveStyle = Object.assign(
+      {}, divStyle, ActiveStyle()
+    )
 
     for (let g in groups) {
       let group = this.state.group
@@ -430,24 +441,20 @@ class OptionBoard extends Component {
         initial: false
       })
     }
-    const button1 = <button>B1</button>
-    const button2 = <button>B2</button>
 
-    let mainDivStyle = {
-      height: '100%',
-      borderStyle: 'solid',
-      borderWidth: 'thin',
-      borderColor: '#516368'
-    }
-    let optGroupDivStyle = {
-      height: '160px',
-    }
+    let mainDivStyle = Object.assign(
+      DivStyle(), {borderStyle: 'solid'})
+    let optGroupDivStyle = Object.assign(
+      DivStyle(), {height: '160px'})
+    let buttonGroupDivStyle = Object.assign(
+      DivStyle(),
+      {
+        height: '-moz-calc(100% - 160px)',
+        height: 'calc(100% - 160px)',
+        overflow: 'scroll'
+      }
+    )
 
-    let buttonGroupDivStyle = {
-      height: '-moz-calc(100% - 160px)',
-      height: 'calc(100% - 160px)',
-      overflow: 'scroll'
-    }
     const mainDiv = <div style={mainDivStyle}>
       <div style={optGroupDivStyle}>
         {this.Group()}
