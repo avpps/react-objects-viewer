@@ -25,6 +25,14 @@ export function DivStyle () {
 }
 
 
+export function DivBorderedStyle () {
+  let base = {
+    borderStyle: 'solid',
+  };
+  return Object.assign({}, DivStyle(), base, CommonStyle());
+}
+
+
 export function UnselectableOptions () {
   let base = {
     userSelect: 'none',
