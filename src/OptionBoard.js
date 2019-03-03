@@ -3,7 +3,7 @@ import _ from 'lodash'
 import Select from '@material-ui/core/Select';
 import { PresentationSpanStyle } from './utils/helpers'
 import {
-  DivStyle, ButtonStyle, SelectStyle, InputStyle,
+  DivStyle, DivBorderedStyle, SelectStyle, InputStyle,
   UnselectableOptions, ActiveStyle,
 } from './utils/cssHelpers'
 import TextSearch from './TextInput'
@@ -100,11 +100,17 @@ class OptionBoard extends Component {
     let selStyle = Object.assign({}, SelectStyle(), {
       width: 'calc(100% - 50px)'
     })
+    let ordStyle = Object.assign({}, DivStyle(), UnselectableOptions(), {
+      width: '50px',
+      display: 'inline-block',
+    })
 
-    return <div style={{height: '40px'}}>
-      <select style={selStyle} onChange={this.handleSortChange}>{options}</select>
-      <button style={ButtonStyle()} onClick={this.handleSortOrderChange}>{this.state.sortOrder.toUpperCase()}</button>
-    </div>
+    return (
+      <div style={{height: '40px'}}>
+        <select style={selStyle} onChange={this.handleSortChange}>{options}</select>
+        <div style={ordStyle} onClick={this.handleSortOrderChange}>{this.state.sortOrder.toUpperCase()}</div>
+      </div>
+    )
   }
 
   handleSortChange (event) {
@@ -142,20 +148,26 @@ class OptionBoard extends Component {
       options.push(<option selected={selected}>{objKeys[i]}</option>)
     }
 
-    let styleComm = {width: '100%'}
-    let selStyle = Object.assign({}, SelectStyle(), {
-      width: 'calc(100% - 50px)'
+    let styleComm = {display: 'inline-flex'}
+    let inpStyle = Object.assign({}, styleComm, {
+      width: '70%'
+    })
+    let selStyle = Object.assign({}, {
+      width: '30%',
     })
 
-    return <div style={{height: '40px', display: 'inline-flex'}}>
-      <div style={styleComm}>
-        <TextSearch onChange={this.handleFilterChange} />
+    return(
+      <div style={{width: '100%', height: '40px', display: 'inline-flex'}}>
+        <div style={inpStyle}>
+          <TextSearch onChange={this.handleFilterChange} />
+        </div>
+        <div style={selStyle}>
+          <select style={SelectStyle()} onChange={this.handleFilterGroupChange}>
+            {options}
+          </select>
+        </div>
       </div>
-      <select
-       style={selStyle}
-       onChange={this.handleFilterGroupChange}
-       >{options}</select>
-    </div>
+    )
   }
 
   handleFilterChange (value) {

@@ -88,7 +88,7 @@ class ContentSection extends Component {
     console.log(this.state.items.length)
 
     return (
-      <div id="scrollableDiv" style={{ height: '100%', overflow: "auto" }}>
+      <div id="scrollableDiv" style={{ height: '100%', overflow: "auto", textAlign: 'left'}}>
         <InfiniteScroll
           dataLength={this.state.items.length}
           next={this.fetchMoreData}

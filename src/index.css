@@ -53,12 +53,16 @@ http://www.eclipsecolorthemes.org/?view=theme&id=68
 
  */
 
+root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
 html,body {
   height: 100%;
   width: 100%;
   margin: 0;
-  background-color: #1f2223;
-  color: #E0E2E4;
   font-family: monospace;
 }
 
@@ -66,6 +70,7 @@ div {
   height: 100%;
   margin: 0;
   background-color: #1f2223;
+  color: #7D8C93;
 }
 
 div::-webkit-scrollbar-track
@@ -100,10 +105,4 @@ textarea::-webkit-scrollbar
 textarea::-webkit-scrollbar-thumb
 {
 	background-color: #2F393C;
-}
-
-root {
-  height: 100%;
-  width: 100%;
-  margin: 0;
 }
