@@ -91,7 +91,8 @@ class ObjectViewer extends Component {
                margin={[0, 0]}>
                 {boards}
                 <div style={DivBorderedStyle()} key='o'>
-                  <ContentSection Content={oa[5]}/>
+                  <ContentSection Content={oa[5]} objectKeys={objectKeys}
+                    conf_dgs={conf_dgs[5]} conf_dbd={conf_dbd} conf_ddc={conf_ddc}/>
                 </div>
               </ReactGridLayout>
             </div>
