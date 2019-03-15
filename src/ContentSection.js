@@ -1,16 +1,57 @@
 import React, { Component } from 'react';
+import _ from 'lodash'
+import Select from 'react-select';
 import './ObjectViewer.css';
 
 import { getConf} from './conf'
 import classNames from 'classnames'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
+  InputStyle,
   DivBorderedStyle, SelectStyle, DivStyle, UnselectableOptions
 } from './utils/cssHelpers'
+import DelayedInput from './DelayedInput'
 
 const JSON = require('json5')
 const JSON3 = require('json3')
 const JSON5 = require('json5')
+
+
+class ContentItem extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      cont: this.props.cont
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.cont !== prevProps.cont) {
+      this.setState({cont: this.props.cont});
+    }
+  }
+
+  render () {
+    let obj = this.props.obj
+    let cont = this.state.cont
+    let conf_dgs = this.props.conf_dgs
+
+    let contFormatted
+    try {
+      contFormatted = JSON5.stringify(obj[cont], null, '    ')
+    } catch (err) {
+      contFormatted = obj[cont]
+    }
+    return (
+      <div style={{height: 'auto'}}>
+        <span>{obj['datetime']} {obj['user_id']}</span>
+        <pre style={{color: '#7D8C93'}}>{contFormatted}</pre>
+        <br />
+      </div>
+    )
+  }
+}
 
 
 class ContentSection extends Component {
@@ -19,80 +60,69 @@ class ContentSection extends Component {
     this.state = {
       items: [],
       hasMore: true,
-      page: 0,
-      pageSize: 500,
-      cont: this.props.conf_dgs[0][0],
-      sort: this.props.conf_dgs[1],
+      pageSize: 300,
+      cont: this.props.conf_dgs[0],
+      headCont: this.props.conf_dgs[1],
+      sort: this.props.conf_dgs[2],
       sortOrder: 'asc',
+      selectedOption: null
     }
-    this.fetchMoreData = this.fetchMoreData.bind(this)
+    this.presentation = this.presentation.bind(this)
+    this.handlePageSizeChange = this.handlePageSizeChange.bind(this)
     this.handleContChange = this.handleContChange.bind(this)
     this.handleSortChange = this.handleSortChange.bind(this)
     this.handleSortOrderChange = this.handleSortOrderChange.bind(this)
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.Content !== prevProps.Content) {
-      this.setState({
-        items: [],
-        hasMore: true,
-        page: 0,
-      }, this.fetchMoreData)
-    }
+  presentation () {
+    let pageSize = this.state.pageSize
+    let sort = this.state.sort
+    let sortOrder = this.state.sortOrder
+    let cont = this.state.cont
+    let conf_dgs = this.props.conf_dgs
+
+    let content = _(this.props.Content.slice(0, pageSize))
+    content = content.orderBy(function (c) {return c[sort]}, sortOrder)
+    content = content.map(function (c) {return (
+      <ContentItem
+        cont={cont}
+        obj={c}
+        conf_dgs={conf_dgs}
+      />
+    )})
+    return content.value()
   }
 
-  presentation (i) {
-    console.log(this.state.cont, this.props.conf_dgs)
-    let cont
-    try {
-      cont = JSON5.stringify(i[this.state.cont], null, '    ')
-    } catch (err) {
-      cont = i[this.state.cont]
-    }
-    return (
-      <div>
-        <span>{i['datetime']} {i['user_id']}</span>
-        <pre style={{color: '#7D8C93'}}>{cont}</pre>
-        <br />
-      </div>
-    )
+  Info () {
+    let style = Object.assign({
+    }, InputStyle())
+
+    return <div style={{width: '120px', display: 'inline-block'}}>
+      {this.props.Content.length}
+    </div>
   }
 
-  fetchMoreData () {
-    setTimeout(() => {
-      let hasMore = this.state.hasMore
-      let page = this.state.page
-      let pageSize = this.state.pageSize
-      let start = page * pageSize
-      let end = start + pageSize
-      let newItems = this.state.items.concat(
-        this.props.Content.slice(start, end).map((i) => (
-          this.presentation(i)
-      )))
-      if (newItems.length >= this.props.Content.length) {
-        hasMore = false
-      }
+  PageSize () {
+    let style = Object.assign({
+    }, InputStyle())
 
-      console.log(
-        'start', start,
-        'end', end,
-        'page', page,
-        'content', this.props.Content.length,
-        'content_splice', this.props.Content.slice(start, end).length,
-        'hasMore', hasMore,
-        'newItems', newItems.length
-      )
-      this.setState({
-        items: newItems,
-        hasMore: hasMore,
-        page: this.state.page += 1
-      });
-    },
-    100);
+    return <div style={{width: '120px', display: 'inline-block'}}>
+      <DelayedInput
+        onChange={this.handleFilterChange}
+        type='number'
+        value={this.state.pageSize}
+        onChange={this.handlePageSizeChange}
+      />
+    </div>
+  }
+
+  handlePageSizeChange (val) {
+    this.setState({
+      pageSize: val,
+    }, this.presentation)
   }
 
   Cont () {
-    let options = []
     let objKeys = []
     if (this.props.Content[0]) {
       objKeys = Object.keys(this.props.Content[0])
@@ -101,17 +131,19 @@ class ContentSection extends Component {
     } else {
       objKeys = [this.state.group]
     }
-    for (var i in objKeys) {
-      var selected = false
-      if (objKeys[i] === this.state.cont) {selected='selected'}
-      options.push(<option selected={selected}>{objKeys[i]}</option>)
-    }
+
+    let options = objKeys.map((i) => ({objKeys[i]=objKeys[i]}))
+    console.log('____options   :  ', options)
 
     let selStyle = Object.assign({
     }, SelectStyle())
 
-    return <div style={{width: '50%', display: 'inline-block'}}>
-      <select style={selStyle} onChange={this.handleContChange}>{options}</select>
+    return <div style={{width: 'calc((100% - 240px) / 2)', display: 'inline-block'}}>
+      <Select
+        value={this.state.selectedOption}
+        onChange={this.handleContChange}
+        options={options}
+      />
     </div>
   }
 
@@ -147,7 +179,7 @@ class ContentSection extends Component {
     })
 
     return (
-      <div style={{width: '50%', display: 'inline-block'}}>
+      <div style={{width: 'calc((100% - 240px) / 2)', display: 'inline-block'}}>
         <select style={selStyle} onChange={this.handleSortChange}>{options}</select>
         <div style={ordStyle} onClick={this.handleSortOrderChange}>{this.state.sortOrder.toUpperCase()}</div>
       </div>
@@ -174,7 +206,6 @@ class ContentSection extends Component {
   }
 
   render() {
-    console.log(this.state.items.length)
 
     let controlDivStyle = Object.assign(
       {}, DivBorderedStyle(),
@@ -188,19 +219,13 @@ class ContentSection extends Component {
     return (
       <div>
         <div style={controlDivStyle}>
+          {this.PageSize()}
+          {this.Info()}
           {this.Cont()}
           {this.Sort()}
         </div>
         <div id="scrollableDiv" style={contDivStyle}>
-          <InfiniteScroll
-            dataLength={this.state.items.length}
-            next={this.fetchMoreData}
-            hasMore={this.state.hasMore}
-            loader={'loader...'}
-            scrollableTarget="scrollableDiv"
-          >
-            {this.state.items}
-          </InfiniteScroll>
+          {this.presentation()}
         </div>
       </div>
     );

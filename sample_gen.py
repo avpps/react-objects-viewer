@@ -5,12 +5,15 @@ import random
 from string import hexdigits as hd
 from pprint import pprint as pp
 
-users = 1
-sessions = 3
+users = 15
+sessions = 20
 fro_r = 2
 deb_r = (20, 21)
 bac_r = (2, 10)
-cont_l = 2
+cont_l = 5000
+
+attr_ext = 10
+attr_ext_cont = 20
 
 
 attributes = [
@@ -22,6 +25,8 @@ attributes = [
     'str_cont',
     'json_cont',
 ]
+
+attributes_ext = ['sample_attr_{}'.format(i) for i in range(attr_ext)]
 
 req_names = [
     'sign_up',
@@ -49,6 +54,10 @@ def _gen_sample_str_cont(datetime, user_id, sess_id, req_id, req_name, obj_type)
         datetime, user_id, sess_id, req_id, req_name, obj_type) + b
 
 
+def _gen_sample_str(length):
+    return ''.join((random.choice(hd) for i in range(length)))
+
+
 def _gen_sample_json_cont(datetime, user_id, sess_id, req_id, req_name, obj_type):
     return dict(details='\n {} {} {} {} {} {} \n'.format(
                          datetime, user_id, sess_id, req_id, req_name, obj_type),
@@ -69,17 +78,17 @@ for u in range(users):
             for o in obj_types:
                 obj_type = o[0]
                 for o_c in range(o[1]):
-                    objects.append(dict(
+                    obj = dict(
                         datetime=str(dt),
                         user_id=user_id,
                         sess_id=sess_id,
                         req_id=req_id,
                         req_name=req_name,
                         obj_type=obj_type,
-                        str_cont=_gen_sample_str_cont(dt, user_id, sess_id,
-                                                      req_id, req_name, obj_type),
-                        json_cont=_gen_sample_json_cont(dt, user_id, sess_id,
-                                                        req_id, req_name, obj_type)))
+                        str_cont=_gen_sample_str_cont(dt, user_id, sess_id, req_id, req_name, obj_type),
+                        json_cont=_gen_sample_json_cont(dt, user_id, sess_id, req_id, req_name, obj_type))
+                    obj.update({n: _gen_sample_str(attr_ext_cont) for n in attributes_ext})
+                    objects.append(obj)
 
 print('Object items count: ', len(objects))
 

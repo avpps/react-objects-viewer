@@ -6,7 +6,7 @@ import {
   DivStyle, DivBorderedStyle, SelectStyle, InputStyle,
   UnselectableOptions, ActiveStyle,
 } from './utils/cssHelpers'
-import TextSearch from './TextInput'
+import DelayedInput from './DelayedInput'
 
 
 class OptionBoard extends Component {
@@ -159,7 +159,7 @@ class OptionBoard extends Component {
     return(
       <div style={{width: '100%', height: '40px', display: 'inline-flex'}}>
         <div style={inpStyle}>
-          <TextSearch onChange={this.handleFilterChange} />
+          <DelayedInput onChange={this.handleFilterChange} />
         </div>
         <div style={selStyle}>
           <select style={SelectStyle()} onChange={this.handleFilterGroupChange}>

@@ -7,7 +7,7 @@ import {
 const WAIT_INTERVAL = 2500;
 const ENTER_KEY = 13;
 
-export default class TextSearch extends Component {
+export default class DelayedInput extends Component {
     constructor(props) {
         super();
 
@@ -50,6 +50,7 @@ export default class TextSearch extends Component {
         let style = Object.assign({width: '70%'}, InputStyle())
         return (
             <input style={style}
+                type={this.props.type}
                 value={this.state.value}
                 onChange={(e) => this.handleChange(e)}
                 onKeyDown={(e) => this.handleKeyDown(e)}
