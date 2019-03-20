@@ -51,7 +51,7 @@ class OptionBoard extends Component {
     let objKeys = []
     if (this.props.ObjectsArray[0]) {
       objKeys = Object.keys(this.props.ObjectsArray[0])
-    } else if (this.props.objectKeys) {
+    } else if (this.props.objectKeys.length > 0) {
       objKeys = this.props.objectKeys
     } else {
       objKeys = [this.state.group]
@@ -86,7 +86,7 @@ class OptionBoard extends Component {
     let objKeys = []
     if (this.props.ObjectsArray[0]) {
       objKeys = Object.keys(this.props.ObjectsArray[0])
-    } else if (this.props.objectKeys) {
+    } else if (this.props.objectKeys.length > 0) {
       objKeys = this.props.objectKeys
     } else {
       objKeys = [this.state.sort]
@@ -137,7 +137,7 @@ class OptionBoard extends Component {
     let objKeys = []
     if (this.props.ObjectsArray[0]) {
       objKeys = Object.keys(this.props.ObjectsArray[0])
-    } else if (this.props.objectKeys) {
+    } else if (this.props.objectKeys.length > 0) {
       objKeys = this.props.objectKeys
     } else {
       objKeys = [this.state.filterGroup]

@@ -126,20 +126,24 @@ class ContentSection extends Component {
     let objKeys = []
     if (this.props.Content[0]) {
       objKeys = Object.keys(this.props.Content[0])
-    } else if (this.props.objectKeys) {
+    } else if (this.props.objectKeys.length > 0) {
       objKeys = this.props.objectKeys
     } else {
-      objKeys = [this.state.group]
+      objKeys = this.state.cont
     }
 
-    let options = objKeys.map((i) => ({objKeys[i]=objKeys[i]}))
-    console.log('____options   :  ', options)
+    let options = []
+    for (const o of objKeys) {
+      options.push({value: o, label: o})
+    }
 
     let selStyle = Object.assign({
     }, SelectStyle())
 
     return <div style={{width: 'calc((100% - 240px) / 2)', display: 'inline-block'}}>
       <Select
+        defaultValue={this.props.conf_dgs[0]}
+        isMulti
         value={this.state.selectedOption}
         onChange={this.handleContChange}
         options={options}
@@ -147,8 +151,7 @@ class ContentSection extends Component {
     </div>
   }
 
-  handleContChange (event) {
-    let val = event.target.value
+  handleContChange (val) {
     this.setState({
       cont: val,
     })

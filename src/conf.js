@@ -5,7 +5,11 @@ const conf = {
     ['req_id', 'datetime'],
     ['obj_type', 'obj_type'],
     ['obj_type', 'obj_type'],
-    [['cont_json', 'cont_str'], 'datetime'],
+    [
+      ['cont_json', 'cont_str'],
+      ['datetime', 'user_id', 'req_id', 'sess_id'],
+      'datetime'
+    ],
   ],
   'def_butt_descr': {
     'user_id': ['user_id'],
